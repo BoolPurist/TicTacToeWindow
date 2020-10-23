@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,20 +14,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using PlayerSymbolsControl;
-
-
-namespace TicTacToeMainWindow
+namespace PlayerSymbolsControl
 {
+
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
+    public partial class Cross : UserControl
+    {        
+        public Cross()
         {
-            InitializeComponent();
-            
+            this.InitializeComponent();
         }
+
+
+        
+
+
     }
 }

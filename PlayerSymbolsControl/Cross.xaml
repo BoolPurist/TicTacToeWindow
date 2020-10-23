@@ -1,0 +1,26 @@
+<UserControl x:Class="PlayerSymbolsControl.Cross"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <system:Double x:Key="Size">50</system:Double>
+        <Style x:Key="CrossStyle" TargetType="Line" >
+            <Setter Property="Stroke" Value="Red"/>
+            <Setter Property="StrokeThickness" Value="5"></Setter>
+            
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Y1" Value="1"/>
+            <Setter Property="Y2" Value="{StaticResource Size}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Line Style="{StaticResource CrossStyle}" X2="{StaticResource Size}" X1="1" />
+        <Line Style="{StaticResource CrossStyle}" X1="{StaticResource Size}" X2="1" />           
+    </Grid>
+</UserControl>
