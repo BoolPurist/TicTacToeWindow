@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:TicTacToeMainWindow"
-        xmlns:uc="clr-namespace:PlayerSymbolsControl;assembly=PlayerSymbolsControl"        
+        xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"        
         mc:Ignorable="d"
         Title="Tic Tac Toe" Height="450" Width="800">
     <StackPanel x:Name="stack">
@@ -12,5 +12,7 @@
             <!--<Border BorderThickness="5" Width="80" Padding="5" BorderBrush="Blue">
             <uc:Cross/>
         </Border>-->
+
+        <uc:Circle></uc:Circle>
     </StackPanel>
 </Window>
