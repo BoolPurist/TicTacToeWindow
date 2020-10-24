@@ -8,11 +8,15 @@
         mc:Ignorable="d"
         Title="Tic Tac Toe" Height="450" Width="800">
     <StackPanel x:Name="stack">
+        <uc:TicTacToeBoxControl />
+
+
         <!-- TODO Contentemplate for border of a player symbol and circle user control-->
             <!--<Border BorderThickness="5" Width="80" Padding="5" BorderBrush="Blue">
             <uc:Cross/>
         </Border>-->
+        
 
-        <uc:Circle></uc:Circle>
+        
     </StackPanel>
 </Window>

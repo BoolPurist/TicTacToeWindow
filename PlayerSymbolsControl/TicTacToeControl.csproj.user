@@ -5,12 +5,18 @@
     <Compile Update="Circle.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="TicTacToeBoxControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Cross.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Circle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TicTacToeBoxControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
