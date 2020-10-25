@@ -7,10 +7,9 @@
         xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"        
         mc:Ignorable="d"
         Title="Tic Tac Toe" Height="450" Width="800">
-    <StackPanel x:Name="stack">
-        <uc:TicTacToeBoxControl />
-
-
+    <StackPanel x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <uc:TicTacToeBoxControl Margin="0,0,0,10"/>
+        <uc:GameScore/>
         <!-- TODO Contentemplate for border of a player symbol and circle user control-->
             <!--<Border BorderThickness="5" Width="80" Padding="5" BorderBrush="Blue">
             <uc:Cross/>

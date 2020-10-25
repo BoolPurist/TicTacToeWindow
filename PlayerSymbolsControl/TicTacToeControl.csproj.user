@@ -5,6 +5,9 @@
     <Compile Update="Circle.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GameScore.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="TicTacToeBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -14,6 +17,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Circle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GameScore.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TicTacToeBoxControl.xaml">

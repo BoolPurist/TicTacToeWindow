@@ -19,6 +19,7 @@
             <Setter Property="Width"  Value="{StaticResource Size}"/>
             <Setter Property="BorderBrush"  Value="Black"/>
             <Setter Property="Background" Value="Transparent"/>
+            
 
 
         </Style>
@@ -26,7 +27,7 @@
     
     <StackPanel>
         <WrapPanel>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="0">
+            <Button Style="{StaticResource BorderBtnStyle}"  BorderThickness="0" >
             </Button>
             <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="5,0,5,0">
             </Button>

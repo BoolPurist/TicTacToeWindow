@@ -46,23 +46,23 @@ namespace TicTacToeControl
             var mainStack = rootElement.Current as StackPanel;
 
             int count = 0;
-            foreach (WrapPanel wrap in mainStack.Children)
+
+            foreach (UIElement possibleWrapper in mainStack.Children)
             {
-                foreach (Button contentControl in wrap.Children)
+                if (possibleWrapper is WrapPanel wrap )
                 {
-                    //playFiels[count] = contentControl;
-                    Button playField = playFields[count++];
-                    playField = contentControl;
-                    playField.Tag = count;
-
-                    playField.Click += PlayField_Click;
-                    Debug.WriteLine(count);
-                    
+                    foreach (UIElement controlElement in wrap.Children)
+                    {
+                        if (controlElement is Button playFieldBtn)
+                        {
+                            Button playField = playFields[count++];
+                            playField = playFieldBtn;
+                            playField.Tag = count;
+                            playField.Click += PlayField_Click;
+                        }
+                    }
                 }
-
-
-            }
-           
+            }           
         }
 
         /// <summary> 
@@ -73,7 +73,7 @@ namespace TicTacToeControl
         public void PlayField_Click(object sender, RoutedEventArgs e)
         {
             
-            e.Handled = true;
+            
             
             if (sender is Button playBox)
             {
@@ -90,6 +90,7 @@ namespace TicTacToeControl
 
                 // No need to listen to the event anymore. Play field can be selected only once by one player.
                 playBox.Click -= PlayField_Click;
+                e.Handled = true;
             }
 
             
