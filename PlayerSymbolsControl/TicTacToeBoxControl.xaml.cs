@@ -126,7 +126,7 @@ namespace TicTacToeControl
         playBox.Click -= PlayField_Click;
         e.Handled = true;
 
-        if (setPlayFiels++ == this.playFields.Length)
+        if (++setPlayFiels == this.playFields.Length)
         {
           this.StateOfGame = GameState.Draw;
         }

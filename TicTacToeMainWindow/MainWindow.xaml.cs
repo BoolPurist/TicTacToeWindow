@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace TicTacToeMainWindow
   /// </summary>
   public partial class MainWindow : Window
   {
-    private readonly TicTacToeBoxControl playField;
+    private readonly TicTacToeBoxControl ticTacToeBox;
 
     private readonly GameScore scoreBoard;
 
@@ -34,22 +35,23 @@ namespace TicTacToeMainWindow
       InitializeComponent();
 
       // Getting named xaml element
-      this.playField = this.TicTacToeGird;
+      this.ticTacToeBox = this.TicTacToeGird;
       this.scoreBoard = this.GameScoreBoard;
       this.GameResultAnnouncement = this.EndAnnouncement;
-
+      this.ticTacToeBox.OnGameEnds += this.ReactOnGameEnds;
+      
       
     }
 
     /// <summary> Empties the all fields of the tic tac toe box </summary>
     public void ResetBtn_OnClick(object sender, RoutedEventArgs e)
     {
-      this.playField.Reset();
+      this.ticTacToeBox.Reset();
       this.GameResultAnnouncement.Visibility = Visibility.Hidden;
     }
 
 
-    public void OnGameEnds(GameState endResult)
+    public void ReactOnGameEnds(GameState endResult)
     {
       switch (endResult)
       {
@@ -57,9 +59,19 @@ namespace TicTacToeMainWindow
           this.scoreBoard.GameScoreData.Draws++;
           this.ShowGameResult("Draw !!!");
           break;
+        case GameState.PlayerOneWins:
+          throw new NotImplementedException(
+            $"No case for {endResult} is implemented yet"
+            );
+        case GameState.PlayerTwoWins:
+          throw new NotImplementedException(
+            $"No case for {endResult} is implemented yet"
+            );
         default:
+          throw new NoValidGameStateException(
+            $"{endResult} should not appear as end result of a game"
+            );
           
-          break;
       }
     }
 
