@@ -15,9 +15,9 @@
   <StackPanel 
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-    <uc:TicTacToeBoxControl Margin="{StaticResource BottomMargin}"/>
+    <uc:TicTacToeBoxControl x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
     <Border Margin="{StaticResource BottomMargin}" BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
-      <Button Content="Reset Game" Background="#FFBD1717"/>
+      <Button Content="Reset Game" Background="#FFBD1717" Click="ResetBtn_OnClick"/>
     </Border>
     <uc:GameScore/>
 

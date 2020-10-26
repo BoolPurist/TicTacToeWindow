@@ -54,11 +54,10 @@ namespace TicTacToeControl
           foreach (UIElement controlElement in wrap.Children)
           {
             if (controlElement is Button playFieldBtn)
-            {
-              Button playField = playFields[count++];
-              playField = playFieldBtn;
-              playField.Tag = count;
-              playField.Click += PlayField_Click;
+            {                            
+              playFieldBtn.Tag = count;
+              playFieldBtn.Click += PlayField_Click;
+              playFields[count++] = playFieldBtn;
             }
           }
         }
@@ -73,9 +72,6 @@ namespace TicTacToeControl
     /// <param name="sender"> sender as a button control as play box </param>
     public void PlayField_Click(object sender, RoutedEventArgs e)
     {
-
-
-
       if (sender is Button playBox)
       {
         if (this.stateOfGame == GameState.TurnPlayerOne)
@@ -90,12 +86,27 @@ namespace TicTacToeControl
           this.stateOfGame = GameState.TurnPlayerOne;
         }
 
-        // No need to listen to the event anymore. Play field can be selected only once by one player.
+        // No need to listen to the event anymore. 
+        // Play field can be selected only once by one player.
         playBox.Click -= PlayField_Click;
         e.Handled = true;
       }
+    }
 
-
+    /// <summary> 
+    /// Resets the state of this control.
+    /// Empties all fields in this control and attaches all click events back 
+    /// </summary>    
+    public void Reset()
+    {
+      foreach (Button playField in playFields)
+      {
+        if (playField != null)
+        {
+          playField.Content = null;
+          playField.Click += this.PlayField_Click;
+        }
+      }
     }
 
 
