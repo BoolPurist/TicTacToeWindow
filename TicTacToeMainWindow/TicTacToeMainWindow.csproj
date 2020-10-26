@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlayerSymbolsControl\TicTacToeControl.csproj" />
+    <ProjectReference Include="..\TicTacToeControl\TicTacToeControl.csproj" />
   </ItemGroup>
 
 </Project>

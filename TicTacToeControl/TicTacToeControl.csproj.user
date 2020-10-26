@@ -5,7 +5,7 @@
     <Compile Update="Circle.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="GameScore.xaml.cs">
+    <Compile Update="GameScore\GameScore.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TicTacToeBoxControl.xaml.cs">
@@ -19,7 +19,7 @@
     <Page Update="Circle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GameScore.xaml">
+    <Page Update="GameScore\GameScore.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TicTacToeBoxControl.xaml">
