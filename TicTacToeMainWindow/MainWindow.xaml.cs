@@ -37,11 +37,36 @@ namespace TicTacToeMainWindow
       this.playField = this.TicTacToeGird;
       this.scoreBoard = this.GameScoreBoard;
       this.GameResultAnnouncement = this.EndAnnouncement;
+
+      
     }
 
     /// <summary> Empties the all fields of the tic tac toe box </summary>
-    public void ResetBtn_OnClick(object sender, RoutedEventArgs e) 
-      => this.playField.Reset();
+    public void ResetBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+      this.playField.Reset();
+      this.GameResultAnnouncement.Visibility = Visibility.Hidden;
+    }
 
+
+    public void OnGameEnds(GameState endResult)
+    {
+      switch (endResult)
+      {
+        case GameState.Draw:
+          this.scoreBoard.GameScoreData.Draws++;
+          this.ShowGameResult("Draw !!!");
+          break;
+        default:
+          
+          break;
+      }
+    }
+
+    public void ShowGameResult(string result)
+    {
+      this.GameResultAnnouncement.Content = result;
+      this.GameResultAnnouncement.Visibility = Visibility.Visible;
+    }
   }
 }

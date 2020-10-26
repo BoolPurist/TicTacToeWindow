@@ -20,6 +20,7 @@ namespace TicTacToeControl
   public partial class GameScore : UserControl
   {
 
+
     public GameScoreModel GameScoreData;
 
     #region Constructing

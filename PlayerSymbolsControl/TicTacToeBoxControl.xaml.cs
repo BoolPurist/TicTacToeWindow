@@ -37,9 +37,38 @@ namespace TicTacToeControl
   /// </summary>
   public partial class TicTacToeBoxControl : UserControl
   {
+    /// <summary> 
+    /// Handler for changing the state of tic tac toe game.   
+    /// </summary>
+    public delegate void EndGameHandler(GameState gameResult);
+
+    /// <summary> 
+    /// Invokes if the tic toe game is decided by a draw or 1. or 2. player wins    
+    /// </summary>
+    public event EndGameHandler OnGameEnds;
+
     private readonly Button[] playFields = new Button[9];
 
-    private GameState stateOfGame = GameState.TurnPlayerOne;
+    private GameState stateOfGame;
+
+    private GameState StateOfGame
+    {
+      get => this.stateOfGame;
+      set
+      {
+        this.stateOfGame = value;
+
+        if (
+          value == GameState.Draw || 
+          value == GameState.PlayerOneWins || 
+          value == GameState.PlayerTwoWins
+          )
+        {
+          this?.OnGameEnds.Invoke(value);
+        }
+      }
+    }
+
     public TicTacToeBoxControl()
     {
       InitializeComponent();
@@ -68,6 +97,8 @@ namespace TicTacToeControl
       }
     }
 
+    private static int setPlayFiels = 0;
+
     /// <summary> 
     /// Puts symbol in the play box depending on whose turn is and 
     /// removes the click event. Cross symbol 
@@ -94,6 +125,11 @@ namespace TicTacToeControl
         // Play field can be selected only once by one player.
         playBox.Click -= PlayField_Click;
         e.Handled = true;
+
+        if (setPlayFiels++ == this.playFields.Length)
+        {
+          this.StateOfGame = GameState.Draw;
+        }
       }
     }
 
@@ -103,6 +139,7 @@ namespace TicTacToeControl
     /// </summary>    
     public void Reset()
     {
+
       foreach (Button playField in playFields)
       {
         if (playField != null)
@@ -111,6 +148,9 @@ namespace TicTacToeControl
           playField.Click += this.PlayField_Click;
         }
       }
+
+      setPlayFiels = 0;
+      this.StateOfGame = GameState.TurnPlayerOne;
     }
 
 
