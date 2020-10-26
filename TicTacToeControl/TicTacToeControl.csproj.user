@@ -8,7 +8,7 @@
     <Compile Update="GameScore\GameScore.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="TicTacToeBoxControl.xaml.cs">
+    <Compile Update="TicTacToeBox\TicTacToeBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -22,7 +22,7 @@
     <Page Update="GameScore\GameScore.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="TicTacToeBoxControl.xaml">
+    <Page Update="TicTacToeBox\TicTacToeBoxControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
