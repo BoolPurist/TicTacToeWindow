@@ -25,15 +25,20 @@ namespace TicTacToeMainWindow
   {
     private readonly TicTacToeBoxControl playField;
 
+    private readonly GameScore scoreBoard;
+
     public MainWindow()
     {
       InitializeComponent();
+
+      // Getting named xaml element
       this.playField = this.TicTacToeGird;
+      this.scoreBoard = this.GameScoreBoard;          
     }
 
-    public void ResetBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-      this.playField.Reset();
-    }
+    /// <summary> Empties the all fields of the tic tac toe box </summary>
+    public void ResetBtn_OnClick(object sender, RoutedEventArgs e) 
+      => this.playField.Reset();
+
   }
 }

@@ -7,7 +7,7 @@
         xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Tic Tac Toe" Height="450" Width="800">
+        Title="Tic Tac Toe"  Height="450" Width="800">
   <Window.Resources>
     <Thickness x:Key="BottomMargin" Bottom="10"/>
   </Window.Resources>
@@ -16,10 +16,11 @@
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
     <uc:TicTacToeBoxControl x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
+    <Label d:Content="Dest">asd</Label>
     <Border Margin="{StaticResource BottomMargin}" BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
       <Button Content="Reset Game" Background="#FFBD1717" Click="ResetBtn_OnClick"/>
     </Border>
-    <uc:GameScore/>
+    <uc:GameScore x:Name="GameScoreBoard"/>
 
   </StackPanel>
 </Window>

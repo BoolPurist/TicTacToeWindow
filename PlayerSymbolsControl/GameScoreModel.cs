@@ -57,7 +57,7 @@ namespace TicTacToeControl
       set 
       {
         this.draws = value;
-        this.DrawsBind = $"{this.DrawsTxt}{value}";
+        this.DrawsBind = $"{this.DrawsTxt} {value}";
       }
     }
 
@@ -72,7 +72,7 @@ namespace TicTacToeControl
       set
       {
         this.player1Wins = value;
-        this.Player1WinsBind = $"{this.Player1WinsTxt}{value}";
+        this.Player1WinsBind = $"{this.Player1WinsTxt} {value}";
       }
     }
 
@@ -87,7 +87,7 @@ namespace TicTacToeControl
       set
       {
         this.player2Wins = value;
-        this.Player2WinsBind = $"{this.DrawsTxt}{value}";
+        this.Player2WinsBind = $"{this.DrawsTxt} {value}";
       }
     }
 

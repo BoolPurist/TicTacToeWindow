@@ -30,10 +30,7 @@ namespace TicTacToeControl
       this.GameScoreData = new GameScoreModel();
       InitialBinding();
 
-      var initStats = 0;
-      this.GameScoreData.Player1Wins = initStats;
-      this.GameScoreData.Player2Wins = initStats;
-      this.GameScoreData.Draws = initStats;
+      this.Reset();
 
       void InitialBinding()
       {
@@ -95,9 +92,19 @@ namespace TicTacToeControl
           );
         }
       }
-
     }
 
+    /// <summary> 
+    /// Resets all states on the game score. 
+    /// Wins of 1. player and 2. player and draws are set to zero
+    /// </summary>
+    public void Reset()
+    {
+      var initValue = 0;
+      this.GameScoreData.Player1Wins = initValue;
+      this.GameScoreData.Player2Wins = initValue;
+      this.GameScoreData.Draws = initValue;
+    }
 
     #endregion
   }
