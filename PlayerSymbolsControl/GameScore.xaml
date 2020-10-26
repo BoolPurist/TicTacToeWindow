@@ -6,19 +6,24 @@
              xmlns:local="clr-namespace:TicTacToeControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style x:Key="LableStyle" TargetType="Label">
-            <Setter Property="Background" Value="Gray"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="#97a8a6"/>
-            <Setter Property="Margin" Value="1"/>
-        </Style>
-    </UserControl.Resources>
+  <UserControl.Resources>
+    <Style x:Key="LableStyle" TargetType="Label">
+      <Setter Property="Background" Value="Gray"/>
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="BorderBrush" Value="#97a8a6"/>
+      <Setter Property="Margin" Value="1"/>
+    </Style>
+  </UserControl.Resources>
 
-    <StackPanel Background="Black" >
-        <Label Style="{StaticResource LableStyle}" Tag="PlayerOneWins">1. Player Wins : </Label>
-        <Label Style="{StaticResource LableStyle}" Tag="PlayerTwoWins">2. Player Wins : </Label>
-        <Label Style="{StaticResource LableStyle}" Tag="Draws" >Draws : </Label>
-
-    </StackPanel>
+  <StackPanel Background="Black" >
+    <Label Style="{StaticResource LableStyle}" Tag="Player1WinsBind">
+      1. Player Wins :
+    </Label>
+    <Label Style="{StaticResource LableStyle}" Tag="Player2WinsBind">
+      2. Player Wins :
+    </Label>
+    <Label Style="{StaticResource LableStyle}" Tag="DrawsBind" >
+      Draws :
+    </Label>
+  </StackPanel>
 </UserControl>

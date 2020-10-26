@@ -14,127 +14,90 @@ using System.Windows.Shapes;
 
 namespace TicTacToeControl
 {
-    /// <summary>
-    /// Interaction logic for GameScore.xaml
-    /// </summary>
-    public partial class GameScore : UserControl
+  /// <summary>
+  /// Interaction logic for GameScore.xaml
+  /// </summary>
+  public partial class GameScore : UserControl
+  {
+
+    public GameScoreModel GameScoreData;
+
+    #region Constructing
+    public GameScore()
     {
-        #region Property
+      InitializeComponent();
+      this.GameScoreData = new GameScoreModel();
+      InitialBinding();
 
-        public GameScoreModel GameScoreData;
+      var initStats = 0;
+      this.GameScoreData.Player1Wins = initStats;
+      this.GameScoreData.Player2Wins = initStats;
+      this.GameScoreData.Draws = initStats;
 
-        public int DrawsCounter
+      void InitialBinding()
+      {
+        var root = LogicalTreeHelper.GetChildren(this).GetEnumerator();
+        root.MoveNext();
+        var mainPanel = root.Current as Panel;
+
+        foreach (UIElement child in mainPanel.Children)
         {
-            get => this.drawsCounter;
-            set
+          if (child is Label scoreLable)
+          {
+            if (scoreLable.Tag as string == nameof(this.GameScoreData.DrawsBind))
             {
-                this.drawsCounter = value;
-                this.GameScoreData.Draws = $"{this.drawsText} {this.drawsCounter}";
-            }
-        }
-        public int PlayerOneCounter
-        {
-            get => this.playerOneCounter;
-            set
-            {
-                this.playerOneCounter = value;
-                this.GameScoreData.PlayerOneWins = $"{this.playerOneWinsText} {this.playerOneCounter}";
-            }
-        }
-        public int PlayerTwoCounter
-        {
-            get => this.playerTwoCounter;
-            set
-            {
-                this.playerTwoCounter = value;
-                this.GameScoreData.PlayerTwoWins = $"{this.playerTwoWinsText} {this.playerTwoCounter}";
-            }
-        }
-
-        #endregion
-
-        #region Fields
-
-        private int drawsCounter;
-        private int playerOneCounter;
-        private int playerTwoCounter;
-
-        private string playerOneWinsText = "";
-        private string playerTwoWinsText = "";
-        private string drawsText = "";
-
-        #endregion
-
-
-        #region Constructing
-        public GameScore()
-        {
-            InitializeComponent();
-            this.GameScoreData = new GameScoreModel();
-            this.InitialBinding();
-
-            var initStats = 0;
-            this.DrawsCounter = initStats;
-            this.PlayerOneCounter = initStats;
-            this.PlayerTwoCounter = initStats;
-        }
-
-        private void InitialBinding()
-        {
-            Action<Label, GameScoreModel, string> BindScoreLabelToModel = (control, dataProperty, path) 
-                => 
-            {                
-                control.SetBinding(
-                Label.ContentProperty,
-                new Binding(path)
-                {
-                    Source = dataProperty,
-                    Mode = BindingMode.OneWay,
-                }
+              this.GameScoreData.DrawsTxt = scoreLable.Content as string;
+              BindScoreLabelToModel(
+                scoreLable,
+                this.GameScoreData,
+                nameof(this.GameScoreData.DrawsBind)
                 );
-            };
-
-            var root = LogicalTreeHelper.GetChildren(this).GetEnumerator();
-            root.MoveNext();
-            var mainPanel = root.Current as Panel;
-
-            foreach (UIElement child in mainPanel.Children)
-            {
-                if (child is Label scoreLable)
-                {
-                    if (scoreLable.Tag as string == nameof(this.GameScoreData.Draws))
-                    {
-                        this.drawsText = scoreLable.Content as string;
-                        BindScoreLabelToModel(
-                            scoreLable, 
-                            this.GameScoreData, 
-                            nameof(this.GameScoreData.Draws)
-                            );
-                    }
-                    else if (scoreLable.Tag as string == nameof(this.GameScoreData.PlayerOneWins))
-                    {
-                        this.playerOneWinsText = scoreLable.Content as string;
-                        BindScoreLabelToModel(
-                            scoreLable, 
-                            this.GameScoreData, 
-                            nameof(this.GameScoreData.PlayerOneWins)
-                            );
-                    }
-                    else if (scoreLable.Tag as string == nameof(this.GameScoreData.PlayerTwoWins))
-                    {
-                        this.playerTwoWinsText = scoreLable.Content as string;
-                        BindScoreLabelToModel(
-                            scoreLable, 
-                            this.GameScoreData, 
-                            nameof(this.GameScoreData.PlayerTwoWins)
-                            );
-                    }
-                }
             }
-
-            
+            else if (
+                scoreLable.Tag as string == nameof(this.GameScoreData.Player1WinsBind)
+                )
+            {
+              this.GameScoreData.Player1WinsTxt = scoreLable.Content as string;
+              BindScoreLabelToModel(
+                scoreLable,
+                this.GameScoreData,
+                nameof(this.GameScoreData.Player1WinsBind)
+                );
+            }
+            else if (
+                scoreLable.Tag as string == nameof(this.GameScoreData.Player2WinsBind)
+                )
+            {
+              this.GameScoreData.Player2WinsTxt = scoreLable.Content as string;
+              BindScoreLabelToModel(
+                scoreLable,
+                this.GameScoreData,
+                nameof(this.GameScoreData.Player2WinsBind)
+                );
+            }
+          }
         }
 
-        #endregion
+        static void BindScoreLabelToModel(
+          Label label,
+          GameScoreModel dataProperty,
+          string path
+        )
+        {
+          label.SetBinding(
+          Label.ContentProperty,
+          new Binding(path)
+          {
+            Source = dataProperty,
+            Mode = BindingMode.OneWay,
+          }
+          );
+        }
+      }
+
     }
+
+
+    #endregion
+  }
 }
