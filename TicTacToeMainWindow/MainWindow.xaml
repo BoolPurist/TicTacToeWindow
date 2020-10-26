@@ -4,13 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:TicTacToeMainWindow"
-        xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"        
+        xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Tic Tac Toe" Height="450" Width="800">
+  <Window.Resources>
+    <Thickness x:Key="BottomMargin" Bottom="10"/>
+  </Window.Resources>
+  
   <StackPanel 
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
-    
-    <uc:TicTacToeBoxControl Margin="0,0,0,10"/>
+
+    <uc:TicTacToeBoxControl Margin="{StaticResource BottomMargin}"/>
+    <Border Margin="{StaticResource BottomMargin}" BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
+      <Button Content="Reset Game" Background="#FFBD1717"/>
+    </Border>
     <uc:GameScore/>
 
   </StackPanel>
