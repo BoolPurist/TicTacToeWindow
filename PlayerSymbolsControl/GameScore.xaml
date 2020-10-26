@@ -16,6 +16,11 @@
   </UserControl.Resources>
 
   <StackPanel Background="Black" >
+    <!-- 
+    On this level every label with tag is binded to a property with same name 
+    like the tag. Content of a label will be the text template in which
+    the a number as a stat is inserted into.
+    -->
     <Label Style="{StaticResource LableStyle}" Tag="Player1WinsBind">
       1. Player Wins :
     </Label>

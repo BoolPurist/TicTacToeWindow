@@ -26,6 +26,7 @@ namespace TicTacToeControl
     public GameScore()
     {
       InitializeComponent();
+      
       this.GameScoreData = new GameScoreModel();
       InitialBinding();
 
