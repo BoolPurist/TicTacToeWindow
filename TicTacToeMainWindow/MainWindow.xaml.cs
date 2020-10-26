@@ -27,13 +27,16 @@ namespace TicTacToeMainWindow
 
     private readonly GameScore scoreBoard;
 
+    private readonly Label GameResultAnnouncement;
+
     public MainWindow()
     {
       InitializeComponent();
 
       // Getting named xaml element
       this.playField = this.TicTacToeGird;
-      this.scoreBoard = this.GameScoreBoard;          
+      this.scoreBoard = this.GameScoreBoard;
+      this.GameResultAnnouncement = this.EndAnnouncement;
     }
 
     /// <summary> Empties the all fields of the tic tac toe box </summary>
