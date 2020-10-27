@@ -81,8 +81,11 @@ namespace TicTacToeControl_XUnit
        new int[] { 0, 2, 12}      
     };
 
+    // TODO Write Tests for throwing if field number is mapped to
+    // a non-empty play field in the model
 
-
+    // TODO Implement test for returning draw
+    // TODO Implement test for returning GameState.PlayerOneWins
 
     private static void IterCases(int[] input, GameState[] expectedOutput)
     {

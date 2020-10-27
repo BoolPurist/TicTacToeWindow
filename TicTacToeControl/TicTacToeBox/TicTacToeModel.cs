@@ -38,6 +38,9 @@ namespace TicTacToeControl.TicTacToeBox
 
     private GameState currentState;
 
+    // TODO Implement returning GameState.draw
+    // TODO Implement returning GameState.PlayerOneWins
+
     public GameState MakeTurn(int fieldNumber)
     {
       int ColumnNumber = fieldNumber / 3;
@@ -77,7 +80,7 @@ namespace TicTacToeControl.TicTacToeBox
         this.currentState = GameState.TurnPlayerOne;
         this.fieldGrid[ColumnNumber, RowNumber] = FieldStatus.Player2Occupied;
       }
-
+      
 
 
       return this.currentState;
