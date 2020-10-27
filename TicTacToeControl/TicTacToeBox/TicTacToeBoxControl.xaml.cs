@@ -72,29 +72,6 @@ namespace TicTacToeControl
     public TicTacToeBoxControl()
     {
       InitializeComponent();
-
-      // Get References of all playFields to add click events to them.
-      var rootElement = LogicalTreeHelper.GetChildren(this).GetEnumerator();
-      rootElement.MoveNext();
-      var mainStack = rootElement.Current as StackPanel;
-
-      int count = 0;
-
-      foreach (UIElement possibleWrapper in mainStack.Children)
-      {
-        if (possibleWrapper is WrapPanel wrap)
-        {
-          foreach (UIElement controlElement in wrap.Children)
-          {
-            if (controlElement is Button playFieldBtn)
-            {                            
-              playFieldBtn.Tag = count;
-              playFieldBtn.Click += PlayField_Click;
-              playFields[count++] = playFieldBtn;
-            }
-          }
-        }
-      }
     }
 
     private static int setPlayFiels = 0;
@@ -139,7 +116,6 @@ namespace TicTacToeControl
     /// </summary>    
     public void Reset()
     {
-
       foreach (Button playField in playFields)
       {
         if (playField != null)
@@ -153,8 +129,28 @@ namespace TicTacToeControl
       this.StateOfGame = GameState.TurnPlayerOne;
     }
 
+    private int playFieldInitIndex = 0;
 
+    /// <summary> 
+    /// Loads all play fields in a array field for later manipulation, 
+    /// give numbered tags and attaches click events. 
+    /// In a play field a cross or circle can be inserted or removed after reset.
+    /// </summary>
+    /// <param name="sender"> play field for the tic tac toe field </param>
+    /// <param name="e"> Not used </param>
+    private void PlayField_Loaded(object sender, RoutedEventArgs e)
+    {
+      // If for any reason the xaml is reloaded this counter will be reset to zero.
+      this.playFieldInitIndex %= this.playFields.Length;
+
+      if (sender is Button playFieldBtn)
+      {
+        playFieldBtn.Tag = playFieldInitIndex.ToString();
+        this.playFields[playFieldInitIndex++] = playFieldBtn;
+        playFieldBtn.Click += PlayField_Click;
+      }      
+    }
+    
   }
-
 
 }

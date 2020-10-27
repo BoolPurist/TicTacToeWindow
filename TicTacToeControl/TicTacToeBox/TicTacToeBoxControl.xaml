@@ -7,49 +7,33 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <system:Double x:Key="Size">80</system:Double>
-        <ControlTemplate x:Key="test" TargetType="Button">
-            <ContentPresenter>
-                
-            </ContentPresenter>
-        </ControlTemplate>
-        <Style x:Key="BorderBtnStyle" TargetType="Button">
-            <Setter Property="Height"  Value="{StaticResource Size}"/>
-            <Setter Property="Width"  Value="{StaticResource Size}"/>
-            <Setter Property="BorderBrush"  Value="Black"/>
-            <Setter Property="Background" Value="Transparent"/>
-            
+  <UserControl.Resources>
+    <system:Double x:Key="Size">80</system:Double>
 
+    <Style x:Key="BorderBtnStyle" TargetType="Button">
+      <Setter Property="Height"  Value="{StaticResource Size}"/>
+      <Setter Property="Width"  Value="{StaticResource Size}"/>
+      <Setter Property="BorderBrush"  Value="Black"/>
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+  </UserControl.Resources>
 
-        </Style>
-    </UserControl.Resources>
-    
-    <StackPanel>
-        <WrapPanel>
-            <Button Style="{StaticResource BorderBtnStyle}"  BorderThickness="0" >
-            </Button>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="5,0,5,0">
-            </Button>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="0">
-            </Button>
-        </WrapPanel>
-        <WrapPanel>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="0,5,0,5" >
-            </Button>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="5">
-            </Button>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="0,5,0,5">
-            </Button>
-        </WrapPanel>
-        <WrapPanel>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="0">
-            </Button>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="5,0,5,0" >
-            </Button>
-            <Button Style="{StaticResource BorderBtnStyle}" BorderThickness="0">
-            </Button>
-        </WrapPanel>
-
-    </StackPanel>
+  <StackPanel>
+    <WrapPanel>
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}"  BorderThickness="0" />
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="5,0,5,0" />
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="0" />
+    </WrapPanel>
+    <WrapPanel>
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="0,5,0,5" />
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="5" />
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="0,5,0,5" />
+    </WrapPanel>
+    <WrapPanel>
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="0" />
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="5,0,5,0" />
+      <Button Loaded="PlayField_Loaded"  Style="{StaticResource BorderBtnStyle}" BorderThickness="0" />
+    </WrapPanel>
+  </StackPanel>
+  
 </UserControl>

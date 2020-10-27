@@ -6,8 +6,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PlayerSymbolsControl\TicTacToeControl.csproj" />
+  <ItemGroup>    
     <ProjectReference Include="..\TicTacToeControl\TicTacToeControl.csproj" />
   </ItemGroup>
 
