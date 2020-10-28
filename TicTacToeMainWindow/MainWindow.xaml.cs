@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -24,40 +26,55 @@ namespace TicTacToeMainWindow
   /// </summary>
   public partial class MainWindow : Window
   {
+    // TODO Comment out methods and some props
+
     private readonly TicTacToeBoxControl ticTacToeBox;
 
     private readonly GameScore scoreBoard;
 
-    private readonly Label GameResultAnnouncement;
+    private readonly Label AnnouncerLabel;
+
+    public AnnouncerTextModel AnnouncerTxt { get; set;}
 
     public MainWindow()
     {
       InitializeComponent();
 
+      this.DataContext = this;
+      this.AnnouncerTxt = new AnnouncerTextModel();
+
       // Getting named xaml element
       this.ticTacToeBox = this.TicTacToeGird;
       this.scoreBoard = this.GameScoreBoard;
-      this.GameResultAnnouncement = this.EndAnnouncement;
-      this.ticTacToeBox.OnGameEnds += this.ReactOnGameEnds;
-      
-      
+      this.AnnouncerLabel = this.Announcer;
+      this.ticTacToeBox.GameEnds += this.OnGameEnds;
+      this.ticTacToeBox.ChangeTurn += this.AdjustAnnouncerTxt_OnChangeTurn;
+
+      this.Reset();
     }
 
     /// <summary> Empties the all fields of the tic tac toe box </summary>
     public void ResetBtn_OnClick(object sender, RoutedEventArgs e)
     {
+      this.Reset();
+    }
+
+    private void Reset()    
+    {
       this.ticTacToeBox.Reset();
-      this.GameResultAnnouncement.Visibility = Visibility.Hidden;
+      this.AnnouncerTxt.CurrentText = AnnouncerTextModel.player1TurnTxt;
+      this.AnnouncerLabel.Tag = "Pla1Turn";
     }
 
 
-    public void ReactOnGameEnds(GameState endResult)
+    public void OnGameEnds(GameState endResult)
     {
       switch (endResult)
       {
         case GameState.Draw:
           this.scoreBoard.GameScoreData.Draws++;
-          this.ShowGameResult("Draw !!!");
+          this.AnnouncerTxt.CurrentText = AnnouncerTextModel.drawTxt;
+          this.AnnouncerLabel.Tag = "Draw";
           break;
         case GameState.PlayerOneWins:
           throw new NotImplementedException(
@@ -75,10 +92,24 @@ namespace TicTacToeMainWindow
       }
     }
 
-    public void ShowGameResult(string result)
+    public void AdjustAnnouncerTxt_OnChangeTurn(GameState currentState)
     {
-      this.GameResultAnnouncement.Content = result;
-      this.GameResultAnnouncement.Visibility = Visibility.Visible;
+      if (currentState == GameState.TurnPlayerOne)
+      {
+        this.AnnouncerTxt.CurrentText = AnnouncerTextModel.player1TurnTxt;
+        this.AnnouncerLabel.Tag = "Pla1Turn";
+      }
+      else
+      {
+        this.AnnouncerTxt.CurrentText = AnnouncerTextModel.player2TurnTxt;
+        this.AnnouncerLabel.Tag = "Pla2Turn";
+      }
     }
+
+    //public void ShowGameResult(string result)
+    //{
+    //  this.AnnouncerLabel.Content = result;
+
+    //}
   }
 }

@@ -30,6 +30,8 @@ namespace TicTacToeControl
     Draw
   }
 
+  // TODO Comment out methods and some props
+
   /// <summary>
   /// Interaction logic for TicTacToeBoxControl.xaml. Represents a Tic Tac Toe grid
   /// which can be used by 2 players. It also manages the state of the game, 
@@ -40,12 +42,17 @@ namespace TicTacToeControl
     /// <summary> 
     /// Handler for changing the state of tic tac toe game.   
     /// </summary>
-    public delegate void EndGameHandler(GameState gameResult);
+    public delegate void ChangeGameStateHandler(GameState gameResult);
 
     /// <summary> 
-    /// Invokes if the tic toe game is decided by a draw or 1. or 2. player wins    
+    /// Invokes if the tic toe game ends by a draw or 1. or 2. player wins    
     /// </summary>
-    public event EndGameHandler OnGameEnds;
+    public event ChangeGameStateHandler GameEnds;
+    
+    /// <summary> 
+    /// Invokes if the tic toe game continues into the next turn    
+    /// </summary>
+    public event ChangeGameStateHandler ChangeTurn;
 
     private readonly Button[] playFields = new Button[9];
 
@@ -64,7 +71,7 @@ namespace TicTacToeControl
           value == GameState.PlayerTwoWins
           )
         {
-          this?.OnGameEnds.Invoke(value);
+          this?.GameEnds.Invoke(value);
         }
       }
     }
@@ -107,7 +114,11 @@ namespace TicTacToeControl
         if (++setPlayFiels == this.playFields.Length)
         {
           this.StateOfGame = GameState.Draw;
-        }        
+        }
+        else
+        {
+          this.ChangeTurn?.Invoke(this.stateOfGame);
+        }
       }
 
       static void DebugPlayerTurns(string tag, GameState gameState)
@@ -133,7 +144,7 @@ namespace TicTacToeControl
       }
 
       setPlayFiels = 0;
-      this.StateOfGame = GameState.TurnPlayerOne;
+      this.StateOfGame = GameState.TurnPlayerOne;      
     }
 
     private int playFieldInitIndex = 0;

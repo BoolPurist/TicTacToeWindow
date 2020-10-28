@@ -10,15 +10,37 @@
         Title="Tic Tac Toe"  Height="450" Width="800">
   <Window.Resources>
     <Thickness x:Key="BottomMargin" Bottom="10"/>
+    <Style x:Key="AnnouncerTextStyle" TargetType="Label">
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Margin" Value="{StaticResource BottomMargin}"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Style.Triggers>
+        <Trigger Property="Tag" Value="Pla1Turn">
+          <Setter  Property="Background" Value="Red"/>
+        </Trigger>
+        <Trigger Property="Tag" Value="Pla2Turn">
+          <Setter  Property="Background" Value="Blue"/>
+        </Trigger>
+        <Trigger Property="Tag" Value="Draw">
+          <Setter  Property="Background" Value="Green"/>
+        </Trigger>
+        <Trigger Property="Tag" Value="Pla1Win">
+          <Setter  Property="Background" Value="Red"/>
+        </Trigger>
+        <Trigger Property="Tag" Value="Pla2Win">
+          <Setter  Property="Background" Value="Blue"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
   </Window.Resources>
   
   <StackPanel 
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
     <uc:TicTacToeBoxControl x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
-    <Label 
-      x:Name="EndAnnouncement" d:Content="Announcement" d:Visibility="Visible" Visibility="Hidden"
-      Background="Green" HorizontalAlignment="Center" FontWeight="ExtraBold" Margin="{StaticResource BottomMargin}"/>
+    <Label x:Name="Announcer" Style="{StaticResource AnnouncerTextStyle}"
+           Content="{Binding Path=AnnouncerTxt.CurrentText}" Tag="Pla1Turn"/>
     <Border Margin="{StaticResource BottomMargin}" BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
       <Button Content="Reset Game" Background="#FFBD1717" Click="ResetBtn_OnClick"/>
     </Border>

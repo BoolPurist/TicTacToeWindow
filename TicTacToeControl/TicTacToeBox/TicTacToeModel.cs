@@ -23,8 +23,8 @@ namespace TicTacToeControl.TicTacToeBox
       }            
     }
 
-    // TODO Implement returning GameState.draw
-    // TODO Implement returning GameState.PlayerOneWins
+    
+    // TODO Implement returning GameState.PlayerOneWins and GameState.PlayerTwoWins
     private int turnedCounter = -1;
     private bool hasEnded = false;
 
