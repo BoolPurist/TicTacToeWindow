@@ -89,12 +89,13 @@ namespace TicTacToeControl
         if (this.stateOfGame == GameState.TurnPlayerOne)
         {
           playBox.Content = new Cross();
+          DebugPlayerTurns(playBox.Tag as string ,this.stateOfGame);
           this.stateOfGame = GameState.TurnPlayerTwo;
-
         }
         else if (this.stateOfGame == GameState.TurnPlayerTwo)
         {
           playBox.Content = new Circle();
+          DebugPlayerTurns(playBox.Tag as string, this.stateOfGame);
           this.stateOfGame = GameState.TurnPlayerOne;
         }
 
@@ -106,8 +107,14 @@ namespace TicTacToeControl
         if (++setPlayFiels == this.playFields.Length)
         {
           this.StateOfGame = GameState.Draw;
-        }
+        }        
       }
+
+      static void DebugPlayerTurns(string tag, GameState gameState)
+      {
+        Debug.WriteLine($"PlayField-Nr: {tag},Player Turn: {gameState}");
+      }
+      
     }
 
     /// <summary> 

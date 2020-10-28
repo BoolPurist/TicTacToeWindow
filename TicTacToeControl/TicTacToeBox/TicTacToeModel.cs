@@ -20,23 +20,8 @@ namespace TicTacToeControl.TicTacToeBox
         {
           this.fieldGrid[i, j] = FieldStatus.Empty;
         }
-      }
-     
-        
+      }            
     }
-
-    private readonly FieldStatus[,] fieldGrid;
-
-    private const int maximumFieldNumber = 8;
-
-    private enum FieldStatus
-    {
-      Player1Occupied,
-      Player2Occupied,
-      Empty
-    }
-
-    private GameState currentState;
 
     // TODO Implement returning GameState.draw
     // TODO Implement returning GameState.PlayerOneWins
@@ -85,6 +70,24 @@ namespace TicTacToeControl.TicTacToeBox
 
       return this.currentState;
     }
+
+    #region Private sector
+
+    private enum FieldStatus
+    {
+      Player1Occupied,
+      Player2Occupied,
+      Empty
+    }
+
+    private const int maximumFieldNumber = 8;
+
+    private readonly FieldStatus[,] fieldGrid;
+
+    private GameState currentState;
+
+    #endregion
+
   }
 
   public class NoEmptyPlayFieldException : ArgumentOutOfRangeException
@@ -92,4 +95,6 @@ namespace TicTacToeControl.TicTacToeBox
     public NoEmptyPlayFieldException(string paramName , string message, object? actualValue ) 
       : base(paramName, actualValue, message) { }
   }
+
+
 }

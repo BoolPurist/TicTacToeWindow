@@ -5,6 +5,7 @@ using Xunit;
 using TicTacToeControl;
 using TicTacToeControl.TicTacToeBox;
 using System.Collections.Generic;
+using System.DirectoryServices;
 
 namespace TicTacToeControl_XUnit
 {
@@ -91,8 +92,32 @@ namespace TicTacToeControl_XUnit
         new int[] { 2, 4, 6, 5, 4 }
       };
 
+    // A draw always results into this sequence of returned states if 1. player starts
+    private static GameState[] StatesForDraw
+  => new GameState[]
+  {
+        GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+        GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.TurnPlayerOne,
+        GameState.TurnPlayerTwo , GameState.TurnPlayerOne, GameState.Draw
+  };
 
-    // TODO Implement test for returning draw
+    // Tests if the draw as a state is returned if no players win.
+    [Theory]
+    [MemberData(nameof(DrawTurnsData))]
+    public void MakeTurn_ShouldReturnDraw(int[] madeTurns)
+    {
+      IterCases(madeTurns, StatesForDraw);
+    }
+
+
+    public static TheoryData<int[]> DrawTurnsData
+      => new TheoryData<int[]>()
+      {        
+          new int[] { 3, 4, 1, 5, 2, 0, 8, 7, 6 },
+          new int[] { 3, 7, 6, 0, 4, 5, 8, 2, 1 },
+          new int[] { 0, 1, 4, 8, 5, 3, 2, 6, 7 }
+      };
+
     // TODO Implement test for returning GameState.PlayerOneWins
 
     private static void IterCases(int[] input, GameState[] expectedOutput)
