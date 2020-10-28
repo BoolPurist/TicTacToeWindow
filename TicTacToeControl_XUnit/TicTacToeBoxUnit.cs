@@ -63,14 +63,7 @@ namespace TicTacToeControl_XUnit
     {
       Assert.Throws<ArgumentOutOfRangeException>
         (
-          () => 
-          {
-            var ticTacToeBox = new TicTacToeModel();
-            foreach (int fieldNumber in madeTurns)
-            {
-              ticTacToeBox.MakeTurn(fieldNumber);
-            }
-          }
+          () => { IterCasesForExcep(madeTurns); }
         );  
     }
 
@@ -81,8 +74,23 @@ namespace TicTacToeControl_XUnit
        new int[] { 0, 2, 12}      
     };
 
-    // TODO Write Tests for throwing if field number is mapped to
-    // a non-empty play field in the model
+    // Tests if an exception is thrown if a field number is taken again and 
+    // in this way it tried to occupy a non empty field.
+    [Theory]
+    [MemberData(nameof(NoEmptyFieldsData))]
+    public void MakeTurn_ShouldThrowForNoEmptyField(int[] madeTurns)
+    {
+      Assert.Throws<NoEmptyPlayFieldException>(() => { IterCasesForExcep(madeTurns); });
+    }
+
+    public static TheoryData<int[]> NoEmptyFieldsData
+      => new TheoryData<int[]>()
+      {
+        new int[] { 2, 2 },
+        new int[] { 0, 2, 3, 0},
+        new int[] { 2, 4, 6, 5, 4 }
+      };
+
 
     // TODO Implement test for returning draw
     // TODO Implement test for returning GameState.PlayerOneWins
@@ -94,6 +102,15 @@ namespace TicTacToeControl_XUnit
       for (int i = 0, length = input.Length; i < length; i++)
       {
         Assert.Equal(ticTacToeBox.MakeTurn(input[i]), expectedOutput[i]);
+      }
+    }
+
+    private static void IterCasesForExcep(int[] madeTurns)
+    {
+      var ticTacToeBox = new TicTacToeModel();
+      foreach (int fieldNumber in madeTurns)
+      {
+        ticTacToeBox.MakeTurn(fieldNumber);
       }
     }
   }
