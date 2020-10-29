@@ -120,6 +120,52 @@ namespace TicTacToeControl_XUnit
 
     // TODO Implement test for returning GameState.PlayerOneWins
 
+    [Theory]
+    [MemberData(nameof(WinTurnData))]
+    public void MakeTurn_ShouldReturnWinner(int[] madeTurns, GameState[] gameStates)
+    {
+      IterCases(madeTurns, gameStates);
+    }
+
+    public static TheoryData<int[], GameState[]> WinTurnData
+      => new TheoryData<int[], GameState[]>()
+      {
+        {
+          new int[] { 7, 8, 4, 2, 1 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+            GameState.TurnPlayerOne, GameState.PlayerOneWins
+          }
+        },
+        {
+          new int[] { 3, 4, 0, 6, 8, 2 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+            GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.PlayerTwoWins
+          }
+        },
+        { 
+          new int[] { 7, 6, 4, 1, 5, 3, 2, 0 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+            GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.TurnPlayerOne,
+            GameState.TurnPlayerTwo, GameState.PlayerTwoWins
+          }
+        },
+        {
+          new int[] { 4, 8, 5, 3, 7, 1, 6, 0, 2 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+            GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.TurnPlayerOne,
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.PlayerOneWins
+          }
+        }
+      };
+
     private static void IterCases(int[] input, GameState[] expectedOutput)
     {
       var ticTacToeBox = new TicTacToeModel();

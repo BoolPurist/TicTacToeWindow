@@ -16,19 +16,19 @@
       <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Style.Triggers>
-        <Trigger Property="Tag" Value="Pla1Turn">
+        <Trigger Property="Tag" Value="{x:Static uc:GameState.TurnPlayerOne}">
           <Setter  Property="Background" Value="Red"/>
         </Trigger>
-        <Trigger Property="Tag" Value="Pla2Turn">
+        <Trigger Property="Tag" Value="{x:Static uc:GameState.TurnPlayerTwo}">
           <Setter  Property="Background" Value="Blue"/>
         </Trigger>
-        <Trigger Property="Tag" Value="Draw">
+        <Trigger Property="Tag" Value="{x:Static uc:GameState.Draw}">
           <Setter  Property="Background" Value="Green"/>
         </Trigger>
-        <Trigger Property="Tag" Value="Pla1Win">
+        <Trigger Property="Tag" Value="{x:Static uc:GameState.PlayerOneWins}">
           <Setter  Property="Background" Value="Red"/>
         </Trigger>
-        <Trigger Property="Tag" Value="Pla2Win">
+        <Trigger Property="Tag" Value="{x:Static uc:GameState.PlayerTwoWins}">
           <Setter  Property="Background" Value="Blue"/>
         </Trigger>
       </Style.Triggers>
@@ -40,7 +40,7 @@
 
     <uc:TicTacToeBoxControl x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
     <Label x:Name="Announcer" Style="{StaticResource AnnouncerTextStyle}"
-           Content="{Binding Path=AnnouncerTxt.CurrentText}" Tag="Pla1Turn"/>
+           Content="{Binding Path=AnnouncerTxt.CurrentText}" Tag="{Binding Path=AnnouncerTxt.CurrentGameState}"/>
     <Border Margin="{StaticResource BottomMargin}" BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
       <Button Content="Reset Game" Background="#FFBD1717" Click="ResetBtn_OnClick"/>
     </Border>

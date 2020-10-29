@@ -4,30 +4,63 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.CodeDom;
+using TicTacToeControl;
 
 namespace TicTacToeMainWindow
 {
   public class AnnouncerTextModel : INotifyPropertyChanged
   {
+    // TODO Do commenting
 
-    public AnnouncerTextModel(string startTxt)
+    public AnnouncerTextModel(GameState _currentGameState)
     {
-      this.CurrentText = startTxt;
+      this.CurrentGameState = _currentGameState;
     }
 
-    public AnnouncerTextModel() : this(player1TurnTxt) { }
+    public AnnouncerTextModel() : this(GameState.TurnPlayerOne) { }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public const string player1TurnTxt = "1. Player make your turn please";
+    private GameState currentGameState;
+    public GameState CurrentGameState
+    {
+      get => this.currentGameState;
+      set
+      {
+        this.currentGameState = value;
 
-    public const string player2TurnTxt = "2. Player make your turn please";
+        switch (value)
+        {
+          case GameState.TurnPlayerOne:
+            this.CurrentText = player1TurnTxt;            
+            break;
+          case GameState.TurnPlayerTwo:
+            this.CurrentText = player2TurnTxt;
+            break;
+          case GameState.Draw:
+            this.CurrentText = drawTxt;
+            break;
+          case GameState.PlayerOneWins:
+            this.CurrentText = player1WinTxt;
+            break;
+          case GameState.PlayerTwoWins:
+            this.CurrentText = player2WinTxt;            
+            break;          
+        }
 
-    public const string drawTxt = "Have a draw !";
+        this.OnPropertyChanged(nameof(this.CurrentGameState));
+      }
+    }
 
-    public const string player1WinTxt = "1. Player has won";
+    private const string player1TurnTxt = "1. Player make your turn please";
 
-    public const string player2WinTxt = "2. Player has won";
+    private const string player2TurnTxt = "2. Player make your turn please";
+
+    private const string drawTxt = "Have a draw !";
+
+    private const string player1WinTxt = "1. Player has won";
+
+    private const string player2WinTxt = "2. Player has won";
 
     private string currentText;
 
@@ -40,9 +73,7 @@ namespace TicTacToeMainWindow
         this.OnPropertyChanged(nameof(this.CurrentText));
       }
     }
-
-    
-    
+       
     private void OnPropertyChanged(string paramName)
     {
       this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(paramName));

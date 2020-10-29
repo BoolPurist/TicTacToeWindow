@@ -81,7 +81,9 @@ namespace TicTacToeControl
       InitializeComponent();
     }
 
-    private static int setPlayFiels = 0;
+    private int setPlayFiels = 0;
+
+    
 
     /// <summary> 
     /// Puts symbol in the play box depending on whose turn is and 
@@ -91,6 +93,7 @@ namespace TicTacToeControl
     /// <param name="sender"> sender as a button control as play box </param>
     public void PlayField_Click(object sender, RoutedEventArgs e)
     {
+      Debug.Write($"Turn of {this.stateOfGame},");
       if (sender is Button playBox)
       {
         if (this.stateOfGame == GameState.TurnPlayerOne)
@@ -111,7 +114,7 @@ namespace TicTacToeControl
         playBox.Click -= PlayField_Click;
         e.Handled = true;
 
-        if (++setPlayFiels == this.playFields.Length)
+        if (++this.setPlayFiels == this.playFields.Length)
         {
           this.StateOfGame = GameState.Draw;
         }
@@ -123,7 +126,7 @@ namespace TicTacToeControl
 
       static void DebugPlayerTurns(string tag, GameState gameState)
       {
-        Debug.WriteLine($"PlayField-Nr: {tag},Player Turn: {gameState}");
+        Debug.WriteLine($"PlayField-Nr: {tag}");
       }
       
     }
@@ -143,8 +146,9 @@ namespace TicTacToeControl
         }
       }
 
-      setPlayFiels = 0;
-      this.StateOfGame = GameState.TurnPlayerOne;      
+      this.setPlayFiels = 0;
+      this.StateOfGame = GameState.TurnPlayerOne;
+      Debug.WriteLine('\n');
     }
 
     private int playFieldInitIndex = 0;
