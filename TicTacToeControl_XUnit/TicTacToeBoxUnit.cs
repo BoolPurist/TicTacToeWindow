@@ -118,14 +118,14 @@ namespace TicTacToeControl_XUnit
           new int[] { 0, 1, 4, 8, 5, 3, 2, 6, 7 }
       };
 
-    // TODO Implement test for returning GameState.PlayerOneWins
-
     [Theory]
     [MemberData(nameof(WinTurnData))]
     public void MakeTurn_ShouldReturnWinner(int[] madeTurns, GameState[] gameStates)
     {
       IterCases(madeTurns, gameStates);
     }
+
+    // TODO Created more test case for a win.
 
     public static TheoryData<int[], GameState[]> WinTurnData
       => new TheoryData<int[], GameState[]>()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 
 #nullable enable
 
@@ -52,8 +53,8 @@ namespace TicTacToeControl.TicTacToeBox
       if (!this.hasEnded)
       {
 
-        int ColumnNumber = fieldNumber / 3;
-        int RowNumber = fieldNumber % 3;
+        int columnNumber = fieldNumber % 3;
+        int rowNumber = fieldNumber / 3;
 
         if (fieldNumber < 0)
         {
@@ -71,7 +72,7 @@ namespace TicTacToeControl.TicTacToeBox
             $"Field number must not be greater than {maximumFieldNumber} !"
             );
         }
-        else if (this.fieldGrid[ColumnNumber, RowNumber] != FieldStatus.Empty)
+        else if (this.fieldGrid[rowNumber, columnNumber] != FieldStatus.Empty)
         {
           throw new NoEmptyPlayFieldException(
             nameof(fieldNumber),
@@ -79,28 +80,147 @@ namespace TicTacToeControl.TicTacToeBox
             fieldNumber
             );
         }
-        else if (this.currentState == GameState.TurnPlayerOne)
-        {
-          this.currentState = GameState.TurnPlayerTwo;
-          this.fieldGrid[ColumnNumber, RowNumber] = FieldStatus.Player1Occupied;
-        }
         else
         {
-          this.currentState = GameState.TurnPlayerOne;
-          this.fieldGrid[ColumnNumber, RowNumber] = FieldStatus.Player2Occupied;
+          this.fieldGrid[rowNumber, columnNumber] = 
+            this.currentState == GameState.TurnPlayerOne
+            ? FieldStatus.Player1Occupied : FieldStatus.Player2Occupied;
+          
+          this.currentState = this.ValidateTurn(rowNumber, columnNumber);
         }
 
-        this.turnedCounter++;
 
-        if (turnedCounter == maximumFieldNumber)
+        // Checks if game is already decided by a win or draw
+        if (
+          this.currentState == GameState.PlayerOneWins ||
+          this.currentState == GameState.PlayerTwoWins
+          )
+        {
+          this.hasEnded = true;
+        }
+        else if (++this.turnedCounter == maximumFieldNumber)
         {
           this.currentState = GameState.Draw;
           this.hasEnded = true;
         }
+        else
+        {
+          this.currentState = this.currentState == GameState.TurnPlayerOne 
+            ? GameState.TurnPlayerTwo : GameState.TurnPlayerOne;
+        }
+
 
       }
 
       return this.currentState;
+    }
+
+
+    private const int _maxWidthHeight = 3;    
+    // This routine assumes that the this.currentState is only GameState.TurnPlayerOne or
+    // GameState.TurnPlayerTwo
+    private GameState ValidateTurn(int rowNumber, int columnNumber)
+    {
+      FieldStatus toBeOccupiedField = this.fieldGrid[rowNumber, columnNumber];
+
+      int adjacentFields = 1;
+      int currentColumnNbr = rowNumber;
+      int currentRowNbr = columnNumber;
+
+      // From the toBeOccupiedField 4 axis must be traversed to
+      // determine if a player has won on a turn.
+
+      // Checking from toBeOccupiedField to top left in the grid.
+      if (checkForWin(() => --currentColumnNbr > -1 && --currentRowNbr > -1))
+      {
+        // A win was found already no need to proceed with the next direction
+        return this.currentState;
+      }
+      // Checking from toBeOccupiedField to bottom right in the grid.      
+      if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight && ++currentRowNbr > _maxWidthHeight))
+      {
+        return this.currentState;
+      }
+            
+      // 1. Axis done !
+      // Reset counter for next axis
+      adjacentFields = 1;
+
+      // Checking from toBeOccupiedField to top right in the grid.
+      if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight && --currentRowNbr > -1))
+      {
+        return this.currentState;
+      }
+      
+      // Checking from toBeOccupiedField to bottom left in the grid.
+      if (checkForWin(() => --currentColumnNbr > -1 && ++currentRowNbr < _maxWidthHeight))
+      {
+        return this.currentState;
+      }
+
+      // 2. Axis done !
+      adjacentFields = 1;
+
+      // Checking from toBeOccupiedField to top in the grid.
+      if (checkForWin(() => --currentRowNbr > -1))
+      {
+        return this.currentState;
+      }
+
+      // Checking from toBeOccupiedField to bottom in the grid.
+      if (checkForWin(() => ++currentRowNbr < _maxWidthHeight))
+      {
+        return this.currentState;
+      }
+
+      // 3. Axis done !
+
+      adjacentFields = 1;
+
+      // Checking from toBeOccupiedField to left in the grid.      
+      if (checkForWin(() => --currentColumnNbr > -1))
+      {
+        return this.currentState;
+      }
+
+      // Checking from toBeOccupiedField to right in the grid.
+      if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight))
+      {
+        return this.currentState;
+      }
+
+      // 4. and with it all axis done !
+
+      // Traverses by a given direction from the last occupied field along a half of axis 
+      // It returns true if a win is detected or false otherwise.
+      bool checkForWin(Func<bool> directionToCheck)
+      {
+        currentColumnNbr = columnNumber;
+        currentRowNbr = rowNumber;
+
+        while (directionToCheck())
+        {
+          if (this.fieldGrid[currentRowNbr, currentColumnNbr] == toBeOccupiedField)
+          {
+            if (++adjacentFields == _maxWidthHeight)
+            {
+              this.currentState = this.currentState == GameState.TurnPlayerOne ?
+              GameState.PlayerOneWins : GameState.PlayerTwoWins;
+              return true;
+            }
+          }
+          else
+          {
+            break;
+          }
+        }
+
+        return false;
+      }
+
+      // No win yet so the current state is returned back unchanged.
+      return this.currentState;
+
     }
 
     #region Private sector
