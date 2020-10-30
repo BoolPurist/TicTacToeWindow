@@ -8,10 +8,30 @@ using TicTacToeControl;
 
 namespace TicTacToeMainWindow
 {
+  /// <summary> 
+  /// Takes a current state of TicTacToeBoxControl. 
+  /// Holds receptive of text for a state of a tic tac toe box TicTacToeBoxControl 
+  /// Some props can be binded for xaml
+  /// </summary>
   public class AnnouncerTextModel : INotifyPropertyChanged
   {
-    // TODO Do commenting
+    // These constant strings to change receptive texts 
+    // shown the current state of game to player
+    
+    /// <summary> Text to show that 1. player is next to make turn </summary>
+    public string player1TurnTxt = "1. Player make your turn please";
+    /// <summary> Text to show that 2. player is next to make turn </summary>
+    public string player2TurnTxt = "2. Player make your turn please";
+    /// <summary> Text to show that a draw has occurred </summary>
+    public string drawTxt = "Have a draw !";
+    /// <summary> Text to show that 1. player has won </summary>
+    public string player1WinTxt = "1. Player has won";
+    /// <summary> Text to show that 2. player has won </summary>
+    public string player2WinTxt = "2. Player has won";
 
+    /// <summary> Used for binding by the binding engine </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+   
     public AnnouncerTextModel(GameState _currentGameState)
     {
       this.CurrentGameState = _currentGameState;
@@ -19,9 +39,15 @@ namespace TicTacToeMainWindow
 
     public AnnouncerTextModel() : this(GameState.TurnPlayerOne) { }
 
-    public event PropertyChangedEventHandler PropertyChanged;
 
     private GameState currentGameState;
+    /// <summary> 
+    /// Holds receptive of text for a state of a tic tac toe box TicTacToeBoxControl  
+    /// </summary>
+    /// <value> 
+    /// Can be binded , Get/Set of current state of the game. 
+    /// If set it also changes CurrentText prop with a receptive text for the state 
+    /// </value>
     public GameState CurrentGameState
     {
       get => this.currentGameState;
@@ -52,18 +78,11 @@ namespace TicTacToeMainWindow
       }
     }
 
-    private const string player1TurnTxt = "1. Player make your turn please";
-
-    private const string player2TurnTxt = "2. Player make your turn please";
-
-    private const string drawTxt = "Have a draw !";
-
-    private const string player1WinTxt = "1. Player has won";
-
-    private const string player2WinTxt = "2. Player has won";
-
     private string currentText;
-
+    /// <summary> 
+    /// Holds a text to show the player the current situation of the game
+    /// </summary>
+    /// <value> Can be binded, Get/Set of the receptive text for state of the game </value>
     public string CurrentText
     {
       get => this.currentText;
@@ -73,7 +92,7 @@ namespace TicTacToeMainWindow
         this.OnPropertyChanged(nameof(this.CurrentText));
       }
     }
-       
+        
     private void OnPropertyChanged(string paramName)
     {
       this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(paramName));

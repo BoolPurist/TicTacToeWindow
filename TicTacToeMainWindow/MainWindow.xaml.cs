@@ -22,14 +22,10 @@ using TicTacToeControl;
 namespace TicTacToeMainWindow
 {
   /// <summary>
-  /// Code-behind of MainWindow.xaml .  
+  /// Code-behind of MainWindow.xaml.  
   /// </summary>
   public partial class MainWindow : Window
   {
-    // Control in which the a player clicks to make their turn.
-    private readonly TicTacToeBoxControl ticTacToeBox;
-    // Control which shows the counts of draws and wins of a player
-    private readonly GameScore scoreBoard;
 
     /// <summary> 
     /// Model for holding all label texts for showing the current situation. 
@@ -111,6 +107,11 @@ namespace TicTacToeMainWindow
     /// <param name="currentState"> State of the current course of the game </param>
     public void AdjustAnnouncerTxt_OnChangeTurn(GameState currentState)
      => this.AnnouncerTxt.CurrentGameState = currentState;
+
+    // Control in which the a player clicks to make their turn.
+    private readonly TicTacToeBoxControl ticTacToeBox;
+    // Control which shows the counts of draws and wins of a player
+    private readonly GameScore scoreBoard;
 
   }
 }

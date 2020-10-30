@@ -10,7 +10,6 @@ namespace TicTacToeControl.TicTacToeBox
   public class TicTacToeModel
   {
     
-
     public TicTacToeModel()
     {
       this.currentState = GameState.TurnPlayerOne;
