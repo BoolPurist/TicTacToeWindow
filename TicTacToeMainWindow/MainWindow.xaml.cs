@@ -22,17 +22,22 @@ using TicTacToeControl;
 namespace TicTacToeMainWindow
 {
   /// <summary>
-  /// Interaction logic for MainWindow.xaml
+  /// Code-behind of MainWindow.xaml .  
   /// </summary>
   public partial class MainWindow : Window
   {
-    // TODO Comment out methods and some props
-
+    // Control in which the a player clicks to make their turn.
     private readonly TicTacToeBoxControl ticTacToeBox;
-
+    // Control which shows the counts of draws and wins of a player
     private readonly GameScore scoreBoard;
 
-  
+    /// <summary> 
+    /// Model for holding all label texts for showing the current situation. 
+    /// </summary>
+    /// <value> 
+    /// Get/Set of the object which binds a receptive text as the current state 
+    /// to a label in xaml
+    /// </value>
     public AnnouncerTextModel AnnouncerTxt { get; set;}
 
     public MainWindow()
@@ -44,26 +49,38 @@ namespace TicTacToeMainWindow
 
       // Getting named xaml element
       this.ticTacToeBox = this.TicTacToeGird;
-      this.scoreBoard = this.GameScoreBoard;      
+      this.scoreBoard = this.GameScoreBoard;
+
+      // Events for reacting if the state of game changes, 
+      // (see GameState in name space TicTacToeControl)
       this.ticTacToeBox.GameEnds += this.OnGameEnds;
       this.ticTacToeBox.ChangeTurn += this.AdjustAnnouncerTxt_OnChangeTurn;
 
       this.Reset();
     }
 
-    /// <summary> Empties the all fields of the tic tac toe box </summary>
+    /// <summary> 
+    /// Issues reset of  the controls of tic tac toe box and announcer text. 
+    /// </summary>
+    /// <param name="sender"> Not relevant </param>
+    /// <param name="e"> Not relevant </param>
     public void ResetBtn_OnClick(object sender, RoutedEventArgs e)
     {
       this.Reset();
     }
 
+    // Resets the control tic tac toe box and announcer text.
     private void Reset()    
     {
       this.ticTacToeBox.Reset();
       this.AnnouncerTxt.CurrentGameState = GameState.TurnPlayerOne;
     }
 
-
+    /// <summary> 
+    /// Event handler to announce a draw or a the winner. Increases the respective state
+    /// counters of the displayed game score
+    /// </summary>
+    /// <param name="endResult"> State as a draw or who player won </param>
     public void OnGameEnds(GameState endResult)
     {
       switch (endResult)
@@ -88,13 +105,12 @@ namespace TicTacToeMainWindow
       this.AnnouncerTxt.CurrentGameState = endResult;
     }
 
+    /// <summary> 
+    /// Binds receptive text to displays current course of the game to the players 
+    /// </summary>
+    /// <param name="currentState"> State of the current course of the game </param>
     public void AdjustAnnouncerTxt_OnChangeTurn(GameState currentState)
      => this.AnnouncerTxt.CurrentGameState = currentState;
 
-    //public void ShowGameResult(string result)
-    //{
-    //  this.AnnouncerLabel.Content = result;
-
-    //}
   }
 }

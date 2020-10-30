@@ -9,6 +9,7 @@ namespace TicTacToeControl.TicTacToeBox
 {
   public class TicTacToeModel
   {
+    
 
     public TicTacToeModel()
     {
@@ -24,10 +25,7 @@ namespace TicTacToeControl.TicTacToeBox
       }            
     }
 
-    
     // TODO Implement returning GameState.PlayerOneWins and GameState.PlayerTwoWins
-    private int turnedCounter = -1;
-    private bool hasEnded = false;
 
     /// <summary> 
     /// Processes a made turned and returns the state of the tic tac toe play box
@@ -53,8 +51,8 @@ namespace TicTacToeControl.TicTacToeBox
       if (!this.hasEnded)
       {
 
-        int columnNumber = fieldNumber % 3;
-        int rowNumber = fieldNumber / 3;
+        int columnNumber = fieldNumber % _maxWidthHeight;
+        int rowNumber = fieldNumber / _maxWidthHeight;
 
         if (fieldNumber < 0)
         {
@@ -88,8 +86,7 @@ namespace TicTacToeControl.TicTacToeBox
           
           this.currentState = this.ValidateTurn(rowNumber, columnNumber);
         }
-
-
+        
         // Checks if game is already decided by a win or draw
         if (
           this.currentState == GameState.PlayerOneWins ||
@@ -107,25 +104,25 @@ namespace TicTacToeControl.TicTacToeBox
         {
           this.currentState = this.currentState == GameState.TurnPlayerOne 
             ? GameState.TurnPlayerTwo : GameState.TurnPlayerOne;
-        }
-
-
+        }        
       }
 
       return this.currentState;
     }
 
+    private int turnedCounter = -1;
+    private bool hasEnded = false;
 
-    private const int _maxWidthHeight = 3;    
     // This routine assumes that the this.currentState is only GameState.TurnPlayerOne or
     // GameState.TurnPlayerTwo
     private GameState ValidateTurn(int rowNumber, int columnNumber)
     {
       FieldStatus toBeOccupiedField = this.fieldGrid[rowNumber, columnNumber];
 
-      int adjacentFields = 1;
-      int currentColumnNbr = rowNumber;
+      const int startCountAdjField = 1;
+      int adjacentFields = startCountAdjField;
       int currentRowNbr = columnNumber;
+      int currentColumnNbr = rowNumber;
 
       // From the toBeOccupiedField 4 axis must be traversed to
       // determine if a player has won on a turn.
@@ -144,7 +141,7 @@ namespace TicTacToeControl.TicTacToeBox
             
       // 1. Axis done !
       // Reset counter for next axis
-      adjacentFields = 1;
+      adjacentFields = startCountAdjField;
 
       // Checking from toBeOccupiedField to top right in the grid.
       if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight && --currentRowNbr > -1))
@@ -159,7 +156,7 @@ namespace TicTacToeControl.TicTacToeBox
       }
 
       // 2. Axis done !
-      adjacentFields = 1;
+      adjacentFields = startCountAdjField;
 
       // Checking from toBeOccupiedField to top in the grid.
       if (checkForWin(() => --currentRowNbr > -1))
@@ -175,7 +172,7 @@ namespace TicTacToeControl.TicTacToeBox
 
       // 3. Axis done !
 
-      adjacentFields = 1;
+      adjacentFields = startCountAdjField;
 
       // Checking from toBeOccupiedField to left in the grid.      
       if (checkForWin(() => --currentColumnNbr > -1))
@@ -195,8 +192,8 @@ namespace TicTacToeControl.TicTacToeBox
       // It returns true if a win is detected or false otherwise.
       bool checkForWin(Func<bool> directionToCheck)
       {
-        currentColumnNbr = columnNumber;
         currentRowNbr = rowNumber;
+        currentColumnNbr = columnNumber;
 
         while (directionToCheck())
         {
@@ -224,6 +221,7 @@ namespace TicTacToeControl.TicTacToeBox
     }
 
     #region Private sector
+    private const int _maxWidthHeight = 3;
 
     private enum FieldStatus
     {
@@ -240,6 +238,7 @@ namespace TicTacToeControl.TicTacToeBox
 
     #endregion
 
+
   }
 
   public class NoEmptyPlayFieldException : ArgumentOutOfRangeException
@@ -247,6 +246,7 @@ namespace TicTacToeControl.TicTacToeBox
     public NoEmptyPlayFieldException(string paramName , string message, object? actualValue ) 
       : base(paramName, actualValue, message) { }
   }
+
 
 
 }
