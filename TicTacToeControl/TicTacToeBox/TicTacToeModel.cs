@@ -156,7 +156,7 @@ namespace TicTacToeControl.TicTacToeBox
         return this.currentState;
       }
       // Checking from toBeOccupiedField to bottom right in the grid.      
-      if (checkForWin(() => ++currentColumnNbr < _MAX_WIDTH_HEIGHT && ++currentRowNbr > _MAX_WIDTH_HEIGHT))
+      if (checkForWin(() => ++currentColumnNbr < _MAX_WIDTH_HEIGHT && ++currentRowNbr < _MAX_WIDTH_HEIGHT))
       {
         return this.currentState;
       }

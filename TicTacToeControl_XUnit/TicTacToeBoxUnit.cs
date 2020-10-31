@@ -308,6 +308,18 @@ namespace TicTacToeControl_XUnit
               GameState.TurnPlayerOne, GameState.PlayerOneWins
             }
           },
+          {
+            // [x] [|] [|] 
+            // [|] [x] [|]
+            // [o] [o] [x] 
+            new int[] { 8, 7, 4, 6, 0 },
+            new GameState[]
+            { 
+              GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+              GameState.TurnPlayerOne, GameState.PlayerOneWins 
+            }
+          },
+
     };
 
 
