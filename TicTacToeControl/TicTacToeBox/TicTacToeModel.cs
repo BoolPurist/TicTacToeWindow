@@ -125,8 +125,6 @@ namespace TicTacToeControl.TicTacToeBox
     private int _turnedCounter = -1;    
     private bool _hasEnded = false;
 
-    // TODO Implement reset method named Reset with return void and no parameters
-
     /// <summary> Resets the model as if it was just created </summary>
     public void Reset()
     {
