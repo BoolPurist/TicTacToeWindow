@@ -145,7 +145,11 @@ namespace TicTacToeControl
       {
         if (playField != null)
         {
+#if DEBUG
+          playField.Content = playField.Tag as string;
+#else
           playField.Content = null;
+#endif
           playField.Click -= this.PlayField_OnClick;
           playField.Click += this.PlayField_OnClick;
         }                
@@ -188,6 +192,10 @@ namespace TicTacToeControl
       if (sender is Button playFieldBtn)
       {
         playFieldBtn.Tag = _playFieldInitIndex.ToString();
+
+#if DEBUG
+        playFieldBtn.Content = _playFieldInitIndex;
+#endif
         this.playFields[_playFieldInitIndex++] = playFieldBtn;
         playFieldBtn.Click += PlayField_OnClick;
       }      
@@ -257,6 +265,8 @@ namespace TicTacToeControl
       this.playerTurnsDebug.Clear();
       this.fieldNumbersDebug.Clear();
     }
+
+
 
 #endif
 
