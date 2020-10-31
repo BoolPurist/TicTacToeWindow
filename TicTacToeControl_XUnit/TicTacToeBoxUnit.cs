@@ -175,6 +175,9 @@ namespace TicTacToeControl_XUnit
           }
         },
         {
+          // [x] [x] [o] 
+          // [x] [o] [|]
+          // [o] [|] [x] 
           new int[] { 3, 4, 0, 6, 8, 2 },
           new GameState[]
           {
@@ -226,6 +229,17 @@ namespace TicTacToeControl_XUnit
           {
             GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
             GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.PlayerTwoWins
+          }
+        },
+        {
+          // [|] [|] [|] 
+          // [o] [o] [|]
+          // [x] [x] [x] 
+          new int[] { 7, 4, 8, 3, 6 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo, 
+            GameState.TurnPlayerOne, GameState.PlayerOneWins
           }
         },
       };
