@@ -13,7 +13,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 
-using TicTacToeControl.TicTacToeBox;
 
 namespace TicTacToeControl
 {
@@ -208,7 +207,7 @@ namespace TicTacToeControl
 
     private readonly TicTacToeModel logicalGrid;
 
-#region debug code
+    #region debug code
     
 #if DEBUG
 
@@ -264,9 +263,7 @@ namespace TicTacToeControl
       this.fieldNumbersDebug.Clear();
     }
 
-
-
-#endif
+    #endif
 
 #endregion
 

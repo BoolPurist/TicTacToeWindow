@@ -18,6 +18,8 @@ namespace TicTacToeControl
     /// Interaction logic for PlayerCircle.xaml
     /// </summary>
     
+    
+
     public partial class Circle : UserControl
     {
         public Circle()

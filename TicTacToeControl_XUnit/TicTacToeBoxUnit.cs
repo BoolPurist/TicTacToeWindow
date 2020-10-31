@@ -1,12 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.DirectoryServices;
 
 using Xunit;
 
 using TicTacToeControl;
-using TicTacToeControl.TicTacToeBox;
-using System.Collections.Generic;
-using System.DirectoryServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace TicTacToeControl_XUnit
 {
@@ -334,6 +332,7 @@ namespace TicTacToeControl_XUnit
 
     #endregion
 
+#   region routines
     // Used for most theories. 
     // Parameter input sequence of field numbers for the turns
     // Parameter expectedOutput sequence which contains the expected state 
@@ -359,6 +358,8 @@ namespace TicTacToeControl_XUnit
         ticTacToeBox.MakeTurn(fieldNumber);
       }
     }
+
+    #endregion
   }
- 
+
 }

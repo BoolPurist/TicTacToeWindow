@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Windows.Media;
 
 #nullable enable
 
-namespace TicTacToeControl.TicTacToeBox
+namespace TicTacToeControl
 {
   public class TicTacToeModel
   {
@@ -24,7 +26,8 @@ namespace TicTacToeControl.TicTacToeBox
     /// Returns -1 if no turn has been made yet
     /// </value>
     public int LastTakeFieldNbr { get; private set; }
-    
+
+
     /// <summary> 
     /// Processes a made turned and returns the state of the tic tac toe play box
     /// after the made turn.
@@ -46,12 +49,12 @@ namespace TicTacToeControl.TicTacToeBox
     /// If field number is above 8 or negative
     /// </exception>
     public GameState MakeTurn(int fieldNumber)
-    {
-      this.LastTakeFieldNbr = fieldNumber;
-
+    {      
       // If a final outcome is encounter, this state is returned back until reset.
       if (!this._hasEnded)
       {
+        this.LastTakeFieldNbr = fieldNumber;
+
         // Mapping field number to field coordinates for a 2d array.
         int columnNumber = fieldNumber % _MAX_WIDTH_HEIGHT;
         int rowNumber = fieldNumber / _MAX_WIDTH_HEIGHT;
@@ -122,6 +125,24 @@ namespace TicTacToeControl.TicTacToeBox
     // Local variables for method above
     private int _turnedCounter = -1;    
     private bool _hasEnded = false;
+    private readonly int[,] winSequence = new int[3,2];
+
+    public IEnumerable<int> WinSequence
+    {
+      get
+      {
+        if (this._hasEnded)
+        {
+          int[,] sequence = this.winSequence;
+
+          for (int i = 0, length = sequence.GetLength(0); i < length; i++)
+          {
+            yield return ConvertRowColumnToFieldNbr(sequence[i, 0], sequence[i, 1]);
+          }
+        }                
+      }
+    }
+
 
     /// <summary> Resets the model as if it was just created </summary>
     public void Reset()
@@ -131,7 +152,7 @@ namespace TicTacToeControl.TicTacToeBox
       this._hasEnded = false;
       this._turnedCounter = COUNTER_FOR_NO_TURNS;
       this.LastTakeFieldNbr = COUNTER_FOR_NO_TURNS;
-      this.MakeFieldsEmpty();
+      this.MakeFieldsEmpty();      
       this.currentState = GameState.TurnPlayerOne;
     }
 
@@ -221,10 +242,16 @@ namespace TicTacToeControl.TicTacToeBox
         {
           if (this.fieldGrid[currentRowNbr, currentColumnNbr] == toBeOccupiedField)
           {
+            
+            this.winSequence[adjacentFields, 0] = currentRowNbr;
+            this.winSequence[adjacentFields, 1] = currentColumnNbr;
+
             if (++adjacentFields == _MAX_WIDTH_HEIGHT)
             {
               this.currentState = this.currentState == GameState.TurnPlayerOne ?
               GameState.PlayerOneWins : GameState.PlayerTwoWins;
+              this.winSequence[0, 0] = rowNumber;
+              this.winSequence[0, 1] = columnNumber;
               return true;
             }
           }
@@ -277,6 +304,9 @@ namespace TicTacToeControl.TicTacToeBox
         }
       }
     }
+
+    private static int ConvertRowColumnToFieldNbr(int rowNbr, int columnNbr) 
+    => (rowNbr * _MAX_WIDTH_HEIGHT) + columnNbr;
 
     #endregion
 

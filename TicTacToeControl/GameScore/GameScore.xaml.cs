@@ -42,8 +42,7 @@ namespace TicTacToeControl
     public void StateLabel_OnLoaded(object sender, RoutedEventArgs e)
     {
       if (sender is Label statsLabel)
-      {
-        // TODO build exception if currentTag is not a string.
+      {        
         string currentTag = statsLabel.Tag as string;
 
         DependencyProperty dependencyProperty = Label.ContentProperty;

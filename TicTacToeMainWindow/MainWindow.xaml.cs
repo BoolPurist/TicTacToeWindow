@@ -27,6 +27,9 @@ namespace TicTacToeMainWindow
   /// </summary>
   public partial class MainWindow : Window
   {
+
+#nullable enable
+
     /// <summary> Binding source for current state of the game 
     /// and a respective text to tell the player the current state 
     /// </summary>
@@ -112,8 +115,8 @@ namespace TicTacToeMainWindow
       }
 
       this.AnnouncerTxt.CurrentGameState = endResult;
-
       
+            
     }
 
     /// <summary> 
