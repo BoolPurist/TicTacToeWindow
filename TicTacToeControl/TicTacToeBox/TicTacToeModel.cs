@@ -15,13 +15,18 @@ namespace TicTacToeControl.TicTacToeBox
       this.currentState = GameState.TurnPlayerOne;
       this.fieldGrid = new FieldStatus[3,3];
 
-      for (int i = 0, Columnlength = fieldGrid.GetLength(0); i < Columnlength; i++ )
+      this.MakeFieldsEmpty();
+    }
+
+    private void MakeFieldsEmpty()
+    {
+      for (int i = 0, Columnlength = fieldGrid.GetLength(0); i < Columnlength; i++)
       {
         for (int j = 0, RowLength = fieldGrid.GetLength(1); j < RowLength; j++)
         {
           this.fieldGrid[i, j] = FieldStatus.Empty;
         }
-      }            
+      }
     }
 
     /// <summary> 
@@ -121,6 +126,15 @@ namespace TicTacToeControl.TicTacToeBox
     private bool _hasEnded = false;
 
     // TODO Implement reset method named Reset with return void and no parameters
+
+    /// <summary> Resets the model as if it was just created </summary>
+    public void Reset()
+    {
+      this._hasEnded = false;
+      this._turnedCounter = -1;
+      this.MakeFieldsEmpty();
+      this.currentState = GameState.TurnPlayerOne;
+    }
 
     // This routine assumes that the this.currentState is only GameState.TurnPlayerOne or
     // GameState.TurnPlayerTwo
