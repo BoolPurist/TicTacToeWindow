@@ -41,8 +41,8 @@ namespace TicTacToeControl
   {
 
 #if DEBUG
-    private readonly Stack<int> fieldNumbersDebug = new Stack<int>();
-    private readonly Stack<GameState> playerTurnsDebug = new Stack<GameState>();
+    private readonly List<int> fieldNumbersDebug = new List<int>();
+    private readonly List<GameState> playerTurnsDebug = new List<GameState>();
 #endif
 
     /// <summary> 
@@ -86,8 +86,10 @@ namespace TicTacToeControl
 #if DEBUG
           // Prints outs 2 sequences to the trace: Field numbers taken in order
           // Receptive order of which player made a turn
-          Debug.WriteLine($"Game outcome: {this.playerTurnsDebug.Pop()}");
 
+          Debug.WriteLine($"Outcome is of game party ({value})");
+          this.playerTurnsDebug.Add(value);
+          
           var currentDebugLine = new StringBuilder( 64 );
           currentDebugLine.Append("Field numbers taken: {");
           foreach (int fieldNbr in this.fieldNumbersDebug)
@@ -133,10 +135,11 @@ namespace TicTacToeControl
       {
 
 #if DEBUG
+        // Outputs the taken field number and the player which made the current turn
         Debug.WriteLine($"Field occupied with number: ({playBox.Tag})");
         Debug.WriteLine($"Turn made by ({this.stateOfGame})");
-        this.fieldNumbersDebug.Push(int.Parse(playBox.Tag as string));
-        this.playerTurnsDebug.Push(this.stateOfGame);
+        this.fieldNumbersDebug.Add(int.Parse(playBox.Tag as string));
+        this.playerTurnsDebug.Add(this.stateOfGame);
 #endif
 
         if (this.stateOfGame == GameState.TurnPlayerOne)
@@ -158,6 +161,9 @@ namespace TicTacToeControl
         if (++this._setPlayFiels == this.playFields.Length)
         {
           this.StateOfGame = GameState.Draw;
+#if DEBUG
+          this.fieldNumbersDebug.Add(int.Parse(playBox.Tag as string));
+#endif
         }
         else
         {
@@ -187,7 +193,13 @@ namespace TicTacToeControl
       }
 
       this._setPlayFiels = 0;
-      this.StateOfGame = GameState.TurnPlayerOne;      
+      this.StateOfGame = GameState.TurnPlayerOne;
+
+#if DEBUG
+      this.playerTurnsDebug.Clear();
+      this.fieldNumbersDebug.Clear();
+#endif
+
     }
 
 

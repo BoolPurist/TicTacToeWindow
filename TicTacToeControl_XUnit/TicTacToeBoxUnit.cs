@@ -205,8 +205,32 @@ namespace TicTacToeControl_XUnit
             GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.TurnPlayerOne,
             GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.PlayerOneWins
           }
-        }
+        },
+        {
+          // [o] [|] [|] 
+          // [x] [x] [x]
+          // [|] [|] [o] 
+          new int[] { 4, 8, 5, 0, 3 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+            GameState.TurnPlayerOne, GameState.PlayerOneWins, 
+          }
+        },
+        {
+          // [x] [|] [o] 
+          // [x] [o] [|]
+          // [o] [|] [x] 
+          new int[] { 3, 4, 0, 6, 8, 2 },
+          new GameState[]
+          {
+            GameState.TurnPlayerTwo, GameState.TurnPlayerOne, GameState.TurnPlayerTwo,
+            GameState.TurnPlayerOne, GameState.TurnPlayerTwo, GameState.PlayerTwoWins
+          }
+        },
       };
+
+    // TODO create test cases for method Reset
 
     private static void IterCases(int[] input, GameState[] expectedOutput)
     {
