@@ -11,24 +11,20 @@ namespace TicTacToeControl.TicTacToeBox
   {
 
     public TicTacToeModel()
-    {
-      this.currentState = GameState.TurnPlayerOne;
+    {      
       this.fieldGrid = new FieldStatus[3,3];
-
-      this.MakeFieldsEmpty();
+      this.Reset();
     }
 
-    private void MakeFieldsEmpty()
-    {
-      for (int i = 0, Columnlength = fieldGrid.GetLength(0); i < Columnlength; i++)
-      {
-        for (int j = 0, RowLength = fieldGrid.GetLength(1); j < RowLength; j++)
-        {
-          this.fieldGrid[i, j] = FieldStatus.Empty;
-        }
-      }
-    }
-
+    /// <summary> 
+    /// Returns the last given field number on the most current/last turn 
+    /// </summary>
+    /// <value>
+    /// Auto implementation for public getter only. 
+    /// Returns -1 if no turn has been made yet
+    /// </value>
+    public int LastTakeFieldNbr { get; private set; }
+    
     /// <summary> 
     /// Processes a made turned and returns the state of the tic tac toe play box
     /// after the made turn.
@@ -51,6 +47,8 @@ namespace TicTacToeControl.TicTacToeBox
     /// </exception>
     public GameState MakeTurn(int fieldNumber)
     {
+      this.LastTakeFieldNbr = fieldNumber;
+
       // If a final outcome is encounter, this state is returned back until reset.
       if (!this._hasEnded)
       {
@@ -128,8 +126,11 @@ namespace TicTacToeControl.TicTacToeBox
     /// <summary> Resets the model as if it was just created </summary>
     public void Reset()
     {
+      const int counterForNoTurns = -1;
+      
       this._hasEnded = false;
-      this._turnedCounter = -1;
+      this._turnedCounter = counterForNoTurns;
+      this.LastTakeFieldNbr = counterForNoTurns;
       this.MakeFieldsEmpty();
       this.currentState = GameState.TurnPlayerOne;
     }
@@ -264,6 +265,17 @@ namespace TicTacToeControl.TicTacToeBox
 
     // State of the current game party
     private GameState currentState;
+
+    private void MakeFieldsEmpty()
+    {
+      for (int i = 0, Columnlength = fieldGrid.GetLength(0); i < Columnlength; i++)
+      {
+        for (int j = 0, RowLength = fieldGrid.GetLength(1); j < RowLength; j++)
+        {
+          this.fieldGrid[i, j] = FieldStatus.Empty;
+        }
+      }
+    }
 
     #endregion
 

@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 
+using TicTacToeControl.TicTacToeBox;
+
 namespace TicTacToeControl
 {
 
@@ -45,6 +47,14 @@ namespace TicTacToeControl
     private readonly List<GameState> playerTurnsDebug = new List<GameState>();
 #endif
 
+    public TicTacToeBoxControl()
+    {
+      InitializeComponent();
+      this.logicalGrid = new TicTacToeModel();
+      this.StateOfGame = GameState.TurnPlayerOne;
+      this.playFields = new Button[9];
+    }
+
     /// <summary> 
     /// Handler for changing the state of tic tac toe game.   
     /// </summary>
@@ -76,9 +86,19 @@ namespace TicTacToeControl
       {
         this.stateOfGame = value;
 
+#if DEBUG
+        int currentFieldNbr = this.logicalGrid.LastTakeFieldNbr;
+        // Outputs the taken field number and the player which made the current turn
+        Debug.WriteLine($"Field occupied with number: ({currentFieldNbr})");
+        Debug.WriteLine($"Next turn will be: ({value})");
+        this.fieldNumbersDebug.Add(currentFieldNbr);
+        this.playerTurnsDebug.Add(value);
+#endif
+
+
         if (
-          value == GameState.Draw || 
-          value == GameState.PlayerOneWins || 
+          value == GameState.Draw ||
+          value == GameState.PlayerOneWins ||
           value == GameState.PlayerTwoWins
           )
         {
@@ -88,9 +108,8 @@ namespace TicTacToeControl
           // Receptive order of which player made a turn
 
           Debug.WriteLine($"Outcome is of game party ({value})");
-          this.playerTurnsDebug.Add(value);
-          
-          var currentDebugLine = new StringBuilder( 64 );
+
+          var currentDebugLine = new StringBuilder(64);
           currentDebugLine.Append("Field numbers taken: {");
           foreach (int fieldNbr in this.fieldNumbersDebug)
           {
@@ -111,14 +130,14 @@ namespace TicTacToeControl
 
           Debug.WriteLine(currentDebugLine);
 #endif
+          this.Freeze();
           this?.GameEnds.Invoke(value);
         }
+        else
+        {
+          this?.ChangeTurn(value);
+        }
       }
-    }
-
-    public TicTacToeBoxControl()
-    {
-      InitializeComponent();
     }
 
     /// <summary> 
@@ -134,48 +153,22 @@ namespace TicTacToeControl
       if (sender is Button playBox)
       {
 
-#if DEBUG
-        // Outputs the taken field number and the player which made the current turn
-        Debug.WriteLine($"Field occupied with number: ({playBox.Tag})");
-        Debug.WriteLine($"Turn made by ({this.stateOfGame})");
-        this.fieldNumbersDebug.Add(int.Parse(playBox.Tag as string));
-        this.playerTurnsDebug.Add(this.stateOfGame);
-#endif
+        int selectedFieldNbr = int.Parse(playBox.Tag as string);
 
-        if (this.stateOfGame == GameState.TurnPlayerOne)
-        {
-          playBox.Content = new Cross();
-          this.stateOfGame = GameState.TurnPlayerTwo;
-        }
-        else if (this.stateOfGame == GameState.TurnPlayerTwo)
-        {
-          playBox.Content = new Circle();
-          this.stateOfGame = GameState.TurnPlayerOne;
-        }
+        playBox.Content = this.StateOfGame == GameState.TurnPlayerOne ? 
+          new Cross() as object : new Circle() as object;
 
         // No need to listen to the event anymore. 
         // Play field can be selected only once by one player.
         playBox.Click -= PlayField_OnClick;
         e.Handled = true;
 
-        if (++this._setPlayFiels == this.playFields.Length)
-        {
-          this.StateOfGame = GameState.Draw;
-#if DEBUG
-          this.fieldNumbersDebug.Add(int.Parse(playBox.Tag as string));
-#endif
-        }
-        else
-        {
-          this.ChangeTurn?.Invoke(this.stateOfGame);
-        }
-
-
-      }      
+        // Get the state for the next turn as a result of current turn.
+        this.StateOfGame = this.logicalGrid.MakeTurn(selectedFieldNbr);       
+        
+      }
     }
 
-    // Local variables for method PlayField_OnClick
-    private int _setPlayFiels = 0;
 
     /// <summary> 
     /// Resets the state of this control.
@@ -188,11 +181,12 @@ namespace TicTacToeControl
         if (playField != null)
         {
           playField.Content = null;
+          playField.Click -= this.PlayField_OnClick;
           playField.Click += this.PlayField_OnClick;
-        }
+        }                
       }
 
-      this._setPlayFiels = 0;
+      this.logicalGrid.Reset();
       this.StateOfGame = GameState.TurnPlayerOne;
 
 #if DEBUG
@@ -202,6 +196,17 @@ namespace TicTacToeControl
 
     }
 
+    // Is invoked when game ends.
+    // Used to remove the rest of attached click events from any play fields so new turns 
+    // are not processed and prevents putting new symbol on any left empty play fields 
+    // until Reset method is invoked. 
+    private void Freeze()
+    {
+      foreach (Button playField in this.playFields)
+      {
+        playField.Click -= this.PlayField_OnClick;
+      }
+    }
 
 
     /// <summary> 
@@ -227,9 +232,11 @@ namespace TicTacToeControl
     // Local variable of method of PlayField_Loaded.
     private int _playFieldInitIndex = 0;
 
-    private readonly Button[] playFields = new Button[9];
+    private readonly Button[] playFields;
 
     private GameState stateOfGame;
+
+    private readonly TicTacToeModel logicalGrid;
 
   }
 

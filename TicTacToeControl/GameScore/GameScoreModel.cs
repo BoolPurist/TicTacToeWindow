@@ -87,7 +87,7 @@ namespace TicTacToeControl
       set
       {
         this.player2Wins = value;
-        this.Player2WinsBind = $"{this.DrawsTxt} {value}";
+        this.Player2WinsBind = $"{this.Player2WinsTxt} {value}";
       }
     }
 

@@ -52,7 +52,7 @@ namespace TicTacToeMainWindow
       this.ticTacToeBox.GameEnds += this.OnGameEnds;
       this.ticTacToeBox.ChangeTurn += this.AdjustAnnouncerTxt_OnChangeTurn;
 
-      this.Reset();
+      this.AnnouncerTxt.CurrentGameState = GameState.TurnPlayerOne;
     }
 
     /// <summary> Issues all needed steps to reset a game </summary>
@@ -83,19 +83,19 @@ namespace TicTacToeMainWindow
     /// </param>
     public void OnGameEnds(GameState endResult)
     {
+      this.AnnouncerTxt.CurrentGameState = endResult;
+
       switch (endResult)
       {
         case GameState.Draw:
-          this.scoreBoard.GameScoreData.Draws++;
+          this.scoreBoard.GameScoreData.Draws++;          
           break;
         case GameState.PlayerOneWins:
-          throw new NotImplementedException(
-            $"No case for {endResult} is implemented yet"
-            );
+          this.scoreBoard.GameScoreData.Player1Wins++;
+          break;
         case GameState.PlayerTwoWins:
-          throw new NotImplementedException(
-            $"No case for {endResult} is implemented yet"
-            );
+          this.scoreBoard.GameScoreData.Player2Wins++;
+          break;
         default:
           throw new NoValidGameStateException(
             $"{endResult} should not appear as end result of a game"
@@ -103,6 +103,8 @@ namespace TicTacToeMainWindow
       }
 
       this.AnnouncerTxt.CurrentGameState = endResult;
+
+      
     }
 
     /// <summary> 

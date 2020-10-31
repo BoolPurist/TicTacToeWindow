@@ -7,7 +7,7 @@
         xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Tic Tac Toe"  Height="450" Width="800">
+        Title="Tic Tac Toe" SizeToContent="WidthAndHeight" >
   <Window.Resources>
     <Thickness x:Key="BottomMargin" Bottom="10"/>
     <Style x:Key="AnnouncerTextStyle" TargetType="Label">
@@ -26,16 +26,16 @@
           <Setter  Property="Background" Value="Green"/>
         </Trigger>
         <Trigger Property="Tag" Value="{x:Static uc:GameState.PlayerOneWins}">
-          <Setter  Property="Background" Value="Red"/>
+          <Setter  Property="Background" Value="Orange"/>
         </Trigger>
         <Trigger Property="Tag" Value="{x:Static uc:GameState.PlayerTwoWins}">
-          <Setter  Property="Background" Value="Blue"/>
+          <Setter  Property="Background" Value="Purple"/>
         </Trigger>
       </Style.Triggers>
     </Style>
   </Window.Resources>
   
-  <StackPanel 
+  <StackPanel Margin="50"
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
     <uc:TicTacToeBoxControl x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
