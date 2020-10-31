@@ -24,8 +24,6 @@ namespace TicTacToeControl.TicTacToeBox
       }            
     }
 
-    // TODO Implement returning GameState.PlayerOneWins and GameState.PlayerTwoWins
-
     /// <summary> 
     /// Processes a made turned and returns the state of the tic tac toe play box
     /// after the made turn.
