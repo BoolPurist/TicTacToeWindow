@@ -41,12 +41,6 @@ namespace TicTacToeControl
   /// </summary>
   public partial class TicTacToeBoxControl : UserControl
   {
-
-#if DEBUG
-    private readonly List<int> fieldNumbersDebug = new List<int>();
-    private readonly List<GameState> playerTurnsDebug = new List<GameState>();
-#endif
-
     public TicTacToeBoxControl()
     {
       InitializeComponent();
@@ -87,14 +81,8 @@ namespace TicTacToeControl
         this.stateOfGame = value;
 
 #if DEBUG
-        int currentFieldNbr = this.logicalGrid.LastTakeFieldNbr;
-        // Outputs the taken field number and the player which made the current turn
-        Debug.WriteLine($"Field occupied with number: ({currentFieldNbr})");
-        Debug.WriteLine($"Next turn will be: ({value})");
-        this.fieldNumbersDebug.Add(currentFieldNbr);
-        this.playerTurnsDebug.Add(value);
+        DebugPrintCurrentTurn(this.logicalGrid.LastTakeFieldNbr, value);
 #endif
-
 
         if (
           value == GameState.Draw ||
@@ -102,40 +90,17 @@ namespace TicTacToeControl
           value == GameState.PlayerTwoWins
           )
         {
+          this.Freeze();
+          this.GameEnds?.Invoke(value);
 
 #if DEBUG
-          // Prints outs 2 sequences to the trace: Field numbers taken in order
-          // Receptive order of which player made a turn
-
-          Debug.WriteLine($"Outcome is of game party ({value})");
-
-          var currentDebugLine = new StringBuilder(64);
-          currentDebugLine.Append("Field numbers taken: {");
-          foreach (int fieldNbr in this.fieldNumbersDebug)
-          {
-            currentDebugLine.Append($"{fieldNbr}, ");
-          }
-          currentDebugLine.Remove(currentDebugLine.Length - 2, 2);
-          currentDebugLine.Append(" }");
-          Debug.WriteLine(currentDebugLine);
-          currentDebugLine.Clear();
-
-          currentDebugLine.Append("Made turns: {");
-          foreach (GameState playerTurn in this.playerTurnsDebug)
-          {
-            currentDebugLine.Append($"{playerTurn}, ");
-          }
-          currentDebugLine.Remove(currentDebugLine.Length - 2, 2);
-          currentDebugLine.Append(" }");
-
-          Debug.WriteLine(currentDebugLine);
+          this.DebugPrintGameEnd();
 #endif
-          this.Freeze();
-          this?.GameEnds.Invoke(value);
+
         }
         else
         {
-          this?.ChangeTurn(value);
+          this.ChangeTurn?.Invoke(value);
         }
       }
     }
@@ -190,8 +155,7 @@ namespace TicTacToeControl
       this.StateOfGame = GameState.TurnPlayerOne;
 
 #if DEBUG
-      this.playerTurnsDebug.Clear();
-      this.fieldNumbersDebug.Clear();
+      DebugResetTurns();
 #endif
 
     }
@@ -237,6 +201,66 @@ namespace TicTacToeControl
     private GameState stateOfGame;
 
     private readonly TicTacToeModel logicalGrid;
+
+#region debug code
+    
+#if DEBUG
+
+    private readonly List<int> fieldNumbersDebug = new List<int>();
+    private readonly List<GameState> playerTurnsDebug = new List<GameState>();
+
+    private void DebugPrintCurrentTurn(int currentFieldNbr, GameState currentState)
+    {
+      if (currentFieldNbr != -1)
+      {
+        // Outputs the taken field number and the player which made the current turn
+        Debug.WriteLine($"Field occupied with number: ({currentFieldNbr})");
+        Debug.WriteLine($"Next turn will be: ({currentState})");
+        this.fieldNumbersDebug.Add(currentFieldNbr);
+        this.playerTurnsDebug.Add(currentState);
+      }
+    }
+
+    private void DebugPrintGameEnd()
+    {
+      // Prints outs 2 sequences to the trace: Field numbers taken in order
+      // Receptive order of which player made a turn
+
+      Debug.WriteLine(
+        $"Outcome is of game party ({this.fieldNumbersDebug[fieldNumbersDebug.Count - 1]})"
+        );
+
+      var currentDebugLine = new StringBuilder(64);
+      currentDebugLine.Append("Field numbers taken: {");
+      foreach (int fieldNbr in this.fieldNumbersDebug)
+      {
+        currentDebugLine.Append($"{fieldNbr}, ");
+      }
+      currentDebugLine.Remove(currentDebugLine.Length - 2, 2);
+      currentDebugLine.Append(" }");
+      Debug.WriteLine(currentDebugLine);
+      currentDebugLine.Clear();
+
+      currentDebugLine.Append("Made turns: {");
+      foreach (GameState playerTurn in this.playerTurnsDebug)
+      {
+        currentDebugLine.Append($"{playerTurn}, ");
+      }
+      currentDebugLine.Remove(currentDebugLine.Length - 2, 2);
+      currentDebugLine.Append(" }");
+
+      Debug.WriteLine(currentDebugLine);
+    }
+
+    private void DebugResetTurns()
+    {
+      this.playerTurnsDebug.Clear();
+      this.fieldNumbersDebug.Clear();
+    }
+
+#endif
+
+#endregion
 
   }
 
