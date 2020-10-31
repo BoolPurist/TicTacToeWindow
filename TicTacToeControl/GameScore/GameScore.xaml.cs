@@ -52,19 +52,19 @@ namespace TicTacToeControl
         if (currentTag == "DrawsBind")
         {
           source.DrawsTxt = statsLabel.Content as string;
-          source.Draws = intitStatValue;
+          source.Draws = INTIT_STAT_VALUE;
           bindIt(nameof(source.DrawsBind));
         }
         else if (currentTag == "Player1WinsBind")
         {
           this.GameScoreData.Player1WinsTxt = statsLabel.Content as string;
-          this.GameScoreData.Player1Wins = intitStatValue;
+          this.GameScoreData.Player1Wins = INTIT_STAT_VALUE;
           bindIt(nameof(this.GameScoreData.Player1WinsBind));
         }
         else if (currentTag == "Player2WinsBind")
         {
           this.GameScoreData.Player2WinsTxt = statsLabel.Content as string;
-          this.GameScoreData.Player2Wins = intitStatValue;
+          this.GameScoreData.Player2Wins = INTIT_STAT_VALUE;
           bindIt(nameof(this.GameScoreData.Player2WinsBind));
         }
 
@@ -74,19 +74,19 @@ namespace TicTacToeControl
       }
 
     }
-
+    // INTIT_STAT_VALUE
     /// <summary> 
     /// Resets all states on the game score. 
     /// Wins of 1. player and 2. player and draws are set to zero
     /// </summary>
     public void Reset()
     {      
-      this.GameScoreData.Player1Wins = intitStatValue;
-      this.GameScoreData.Player2Wins = intitStatValue;
-      this.GameScoreData.Draws = intitStatValue;
+      this.GameScoreData.Player1Wins = INTIT_STAT_VALUE;
+      this.GameScoreData.Player2Wins = INTIT_STAT_VALUE;
+      this.GameScoreData.Draws = INTIT_STAT_VALUE;
     }
 
-    private const int intitStatValue = 0;
+    private const int INTIT_STAT_VALUE = 0;
 
 
   }

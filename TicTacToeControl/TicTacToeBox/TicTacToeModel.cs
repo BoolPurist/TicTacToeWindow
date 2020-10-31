@@ -53,8 +53,8 @@ namespace TicTacToeControl.TicTacToeBox
       if (!this._hasEnded)
       {
         // Mapping field number to field coordinates for a 2d array.
-        int columnNumber = fieldNumber % _maxWidthHeight;
-        int rowNumber = fieldNumber / _maxWidthHeight;
+        int columnNumber = fieldNumber % _MAX_WIDTH_HEIGHT;
+        int rowNumber = fieldNumber / _MAX_WIDTH_HEIGHT;
 
         // Checking for exception cases
         if (fieldNumber < 0)
@@ -65,12 +65,12 @@ namespace TicTacToeControl.TicTacToeBox
             $"Field number must not be negative!"
             );
         }
-        else if (fieldNumber > maximumFieldNumber)
+        else if (fieldNumber > MAXIMUM_FIELD_NBR)
         {
           throw new ArgumentOutOfRangeException
             (
             nameof(fieldNumber), fieldNumber,
-            $"Field number must not be greater than {maximumFieldNumber} !"
+            $"Field number must not be greater than {MAXIMUM_FIELD_NBR} !"
             );
         }
         else if (this.fieldGrid[rowNumber, columnNumber] != FieldStatus.Empty)
@@ -103,7 +103,7 @@ namespace TicTacToeControl.TicTacToeBox
         {
           this._hasEnded = true;
         }
-        else if (++this._turnedCounter == maximumFieldNumber)
+        else if (++this._turnedCounter == MAXIMUM_FIELD_NBR)
         {
           this.currentState = GameState.Draw;
           this._hasEnded = true;
@@ -126,11 +126,11 @@ namespace TicTacToeControl.TicTacToeBox
     /// <summary> Resets the model as if it was just created </summary>
     public void Reset()
     {
-      const int counterForNoTurns = -1;
+      const int COUNTER_FOR_NO_TURNS = -1;
       
       this._hasEnded = false;
-      this._turnedCounter = counterForNoTurns;
-      this.LastTakeFieldNbr = counterForNoTurns;
+      this._turnedCounter = COUNTER_FOR_NO_TURNS;
+      this.LastTakeFieldNbr = COUNTER_FOR_NO_TURNS;
       this.MakeFieldsEmpty();
       this.currentState = GameState.TurnPlayerOne;
     }
@@ -141,8 +141,8 @@ namespace TicTacToeControl.TicTacToeBox
     {
       FieldStatus toBeOccupiedField = this.fieldGrid[rowNumber, columnNumber];
 
-      const int startCountAdjField = 1;
-      int adjacentFields = startCountAdjField;
+      const int START_COUNT_ADJFIELD = 1;      
+      int adjacentFields = START_COUNT_ADJFIELD;
       int currentRowNbr = columnNumber;
       int currentColumnNbr = rowNumber;
 
@@ -156,29 +156,29 @@ namespace TicTacToeControl.TicTacToeBox
         return this.currentState;
       }
       // Checking from toBeOccupiedField to bottom right in the grid.      
-      if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight && ++currentRowNbr > _maxWidthHeight))
+      if (checkForWin(() => ++currentColumnNbr < _MAX_WIDTH_HEIGHT && ++currentRowNbr > _MAX_WIDTH_HEIGHT))
       {
         return this.currentState;
       }
             
       // 1. Axis done !
       // Reset counter for next axis
-      adjacentFields = startCountAdjField;
+      adjacentFields = START_COUNT_ADJFIELD;
 
       // Checking from toBeOccupiedField to top right in the grid.
-      if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight && --currentRowNbr > -1))
+      if (checkForWin(() => ++currentColumnNbr < _MAX_WIDTH_HEIGHT && --currentRowNbr > -1))
       {
         return this.currentState;
       }
       
       // Checking from toBeOccupiedField to bottom left in the grid.
-      if (checkForWin(() => --currentColumnNbr > -1 && ++currentRowNbr < _maxWidthHeight))
+      if (checkForWin(() => --currentColumnNbr > -1 && ++currentRowNbr < _MAX_WIDTH_HEIGHT))
       {
         return this.currentState;
       }
 
       // 2. Axis done !
-      adjacentFields = startCountAdjField;
+      adjacentFields = START_COUNT_ADJFIELD;
 
       // Checking from toBeOccupiedField to top in the grid.
       if (checkForWin(() => --currentRowNbr > -1))
@@ -187,14 +187,14 @@ namespace TicTacToeControl.TicTacToeBox
       }
 
       // Checking from toBeOccupiedField to bottom in the grid.
-      if (checkForWin(() => ++currentRowNbr < _maxWidthHeight))
+      if (checkForWin(() => ++currentRowNbr < _MAX_WIDTH_HEIGHT))
       {
         return this.currentState;
       }
 
       // 3. Axis done !
 
-      adjacentFields = startCountAdjField;
+      adjacentFields = START_COUNT_ADJFIELD;
 
       // Checking from toBeOccupiedField to left in the grid.      
       if (checkForWin(() => --currentColumnNbr > -1))
@@ -203,7 +203,7 @@ namespace TicTacToeControl.TicTacToeBox
       }
 
       // Checking from toBeOccupiedField to right in the grid.
-      if (checkForWin(() => ++currentColumnNbr < _maxWidthHeight))
+      if (checkForWin(() => ++currentColumnNbr < _MAX_WIDTH_HEIGHT))
       {
         return this.currentState;
       }
@@ -221,7 +221,7 @@ namespace TicTacToeControl.TicTacToeBox
         {
           if (this.fieldGrid[currentRowNbr, currentColumnNbr] == toBeOccupiedField)
           {
-            if (++adjacentFields == _maxWidthHeight)
+            if (++adjacentFields == _MAX_WIDTH_HEIGHT)
             {
               this.currentState = this.currentState == GameState.TurnPlayerOne ?
               GameState.PlayerOneWins : GameState.PlayerTwoWins;
@@ -253,10 +253,11 @@ namespace TicTacToeControl.TicTacToeBox
     }
 
     // A tic tac toe box has a width of 3
-    private const int _maxWidthHeight = 3;
-
+    // _MAX_WIDTH_HEIGHT
+    private const int _MAX_WIDTH_HEIGHT = 3;
+    // MAXIMUM_FIELD_NBR
     // A tic tac toe has 9 fields. This model counts fields from 0 to 8.
-    private const int maximumFieldNumber = 8;
+    private const int MAXIMUM_FIELD_NBR = 8;
 
     // Array gird with each cell which stores information if a field is still empty 
     // or is occupied by player already. The model decides on this base if a turn leads to 

@@ -17,8 +17,6 @@ using TicTacToeControl.TicTacToeBox;
 
 namespace TicTacToeControl
 {
-
-
   /// <summary> All possible stages of the tic tac toe game and outcomes</summary>
   public enum GameState
   {
