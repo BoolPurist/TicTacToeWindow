@@ -12,7 +12,19 @@ namespace TicTacToeControl_XUnit
 
   public class TicTacToeBoxUnit
   {
-
+    // Some test cases are described 
+    // with how a tic tac toe fields looks like at the end of party
+    // One example 
+    // [x] [o] [|]
+    // [|] [x] [|]
+    // [o] [x] [|]
+    // x = turn of 1. player 
+    // o = turn of 2. player
+    // | = empty field
+    // field number can be number from 0 to 8 and is mapped to tic tac toe field like this
+    // [0] [1] [2]
+    // [3] [4] [5]
+    // [6] [7] [8]
 
     [Theory]
     [MemberData(nameof(TurnsNoWinsDraws))]
@@ -25,6 +37,9 @@ namespace TicTacToeControl_XUnit
       => new TheoryData<int[], GameState[]>()
         {
           {
+            // [|] [|] [x] 
+            // [o] [x] [|]
+            // [|] [|] [|] 
             new int[] {2, 4, 5 },
             new GameState[]
             {
@@ -34,6 +49,9 @@ namespace TicTacToeControl_XUnit
             }
           },
           {
+            // [x] [o] [|] 
+            // [|] [|] [x]
+            // [|] [|] [o] 
             new int[] { 0, 1, 5, 8 },
             new GameState[]
             {
@@ -44,6 +62,9 @@ namespace TicTacToeControl_XUnit
             }
           },
           {
+            // [|] [|] [o] 
+            // [x] [o] [x]
+            // [|] [x] [|] 
             new int[] { 5, 4, 7, 2, 3 },
             new GameState[]
             {
@@ -87,8 +108,11 @@ namespace TicTacToeControl_XUnit
     public static TheoryData<int[]> NoEmptyFieldsData
       => new TheoryData<int[]>()
       {
+        // 2. field is twice in there
         new int[] { 2, 2 },
+        // 0. field is twice in there
         new int[] { 0, 2, 3, 0},
+        // 4. field is twice in there
         new int[] { 2, 4, 6, 5, 4 }
       };
 
@@ -112,9 +136,18 @@ namespace TicTacToeControl_XUnit
 
     public static TheoryData<int[]> DrawTurnsData
       => new TheoryData<int[]>()
-      {        
+      {  
+          // [o] [x] [x] 
+          // [x] [o] [o]
+          // [x] [o] [x]         
           new int[] { 3, 4, 1, 5, 2, 0, 8, 7, 6 },
+          // [o] [x] [o] 
+          // [x] [x] [o]
+          // [x] [o] [x] 
           new int[] { 3, 7, 6, 0, 4, 5, 8, 2, 1 },
+          // [x] [o] [x] 
+          // [o] [x] [x]
+          // [o] [x] [o] 
           new int[] { 0, 1, 4, 8, 5, 3, 2, 6, 7 }
       };
 
@@ -131,6 +164,9 @@ namespace TicTacToeControl_XUnit
       => new TheoryData<int[], GameState[]>()
       {
         {
+          // [|] [x] [o] 
+          // [|] [x] [|]
+          // [|] [x] [o] 
           new int[] { 7, 8, 4, 2, 1 },
           new GameState[]
           {
@@ -147,6 +183,9 @@ namespace TicTacToeControl_XUnit
           }
         },
         { 
+          // [o] [o] [x] 
+          // [o] [x] [x]
+          // [o] [x] [|] 
           new int[] { 7, 6, 4, 1, 5, 3, 2, 0 },
           new GameState[]
           {
@@ -156,6 +195,9 @@ namespace TicTacToeControl_XUnit
           }
         },
         {
+          // [o] [x] [o] 
+          // [o] [x] [x]
+          // [x] [x] [o] 
           new int[] { 4, 8, 5, 3, 7, 1, 6, 0, 2 },
           new GameState[]
           {
