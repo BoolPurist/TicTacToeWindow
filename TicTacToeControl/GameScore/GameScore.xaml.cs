@@ -19,11 +19,8 @@ namespace TicTacToeControl
   /// </summary>
   public partial class GameScore : UserControl
   {
-
-
     public GameScoreModel GameScoreData;
 
-    #region Constructing
     public GameScore()
     {
       InitializeComponent();
@@ -31,15 +28,21 @@ namespace TicTacToeControl
       this.GameScoreData = new GameScoreModel();            
     }
 
-    #endregion
-
     /// <summary> 
+    /// Resets all states on the game score. 
+    /// Wins of 1. player and 2. player and draws are set to zero
+    /// </summary>
+    public void Reset()
+    {
+      this.GameScoreData.Player1Wins = INTIT_STAT_VALUE;
+      this.GameScoreData.Player2Wins = INTIT_STAT_VALUE;
+      this.GameScoreData.Draws = INTIT_STAT_VALUE;
+    }
+
     /// Binds the Label to the game score model so later another control/window can update the 
     /// state counter on the game score view
-    /// </summary>
-    /// <param name="sender"> Label from the game score view </param>
-    /// <param name="e"> Not relevant </param>
-    public void StateLabel_OnLoaded(object sender, RoutedEventArgs e)
+    /// parameter sender: Label from the game score view </param>
+    private void StateLabel_OnLoaded(object sender, RoutedEventArgs e)
     {
       if (sender is Label statsLabel)
       {        
@@ -73,20 +76,8 @@ namespace TicTacToeControl
       }
 
     }
-    // INTIT_STAT_VALUE
-    /// <summary> 
-    /// Resets all states on the game score. 
-    /// Wins of 1. player and 2. player and draws are set to zero
-    /// </summary>
-    public void Reset()
-    {      
-      this.GameScoreData.Player1Wins = INTIT_STAT_VALUE;
-      this.GameScoreData.Player2Wins = INTIT_STAT_VALUE;
-      this.GameScoreData.Draws = INTIT_STAT_VALUE;
-    }
 
     private const int INTIT_STAT_VALUE = 0;
-
 
   }
 }

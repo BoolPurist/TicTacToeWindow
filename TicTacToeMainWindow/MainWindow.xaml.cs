@@ -67,14 +67,6 @@ namespace TicTacToeMainWindow
       }
     }
 
-    /// <summary> Issues all needed steps to reset a game </summary>
-    /// <param name="sender"> Not relevant </param>
-    /// <param name="e"> Not relevant </param>
-    public void ResetBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-      this.Reset();
-    }
-
     /// <summary> 
     /// Issues reset of tic tac box control and 
     /// let the announcer label show that 1. player is to make their turn
@@ -85,15 +77,19 @@ namespace TicTacToeMainWindow
       this.AnnouncerTxt.CurrentGameState = GameState.TurnPlayerOne;
     }
 
-    /// <summary> 
-    /// Event handler: Updates the winning/draw states of played parties of the games 
-    /// on the game score. Shows the players text via the announcer label 
-    /// the outcome of the last party
-    /// </summary>
-    /// <param name="endResult"> 
-    /// State as an outcome of the last party. Possible outcomes are a draw or who player won
-    /// </param>
-    public void OnGameEnds(GameState endResult)
+    #region event handlers 
+
+    // Issues all needed steps to reset a game 
+    private void ResetBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+      this.Reset();
+    }
+
+    // It is added to tic tac toe box control which invokes the event handler if a game ends
+    // on the game score. Invocation increments draw counter or win counter of the receptive 
+    // player on the game score control. It also shows the outcome of the game by changing 
+    // the text of the label "Announcer" in xaml.
+    private void OnGameEnds(GameState endResult)
     {
       this.AnnouncerTxt.CurrentGameState = endResult;
 
@@ -115,16 +111,15 @@ namespace TicTacToeMainWindow
       }
 
       this.AnnouncerTxt.CurrentGameState = endResult;
-      
-            
+                  
     }
 
-    /// <summary> 
-    /// Updates the receptive text of the current state of the game party.
-    /// This receptive text is shown via the announcer label to the player 
-    /// </summary>
-    /// <param name="currentState"> Current state of game party like who is next </param>
-    public void AdjustAnnouncerTxt_OnChangeTurn(GameState currentState)
+    #endregion
+
+    // Updates the receptive text of the current state of the game party.
+    // This receptive text is shown via the announcer label to the player 
+    // parameter currentStat: Current state of game for example who is next to make a turn
+    private void AdjustAnnouncerTxt_OnChangeTurn(GameState currentState)
      => this.AnnouncerTxt.CurrentGameState = currentState;
 
     private readonly TicTacToeBoxControl ticTacToeBox;

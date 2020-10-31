@@ -27,6 +27,27 @@ namespace TicTacToeControl
     /// </value>
     public int LastTakeFieldNbr { get; private set; }
 
+    // TODO Inspect case if final state of game is a drawn for the prop WinSequence
+
+    /// <summary> Gives out the filedNbr of the turns which resulted in victory </summary>
+    /// <value> 
+    /// Getter for enumerable providing the fiedNbrs. Returns nothing if state of game is not final
+    /// </value>
+    public IEnumerable<int> WinSequence
+    {
+      get
+      {
+        if (this._hasEnded)
+        {
+          int[,] sequence = this.winSequence;
+
+          for (int i = 0, length = sequence.GetLength(0); i < length; i++)
+          {
+            yield return ConvertRowColumnToFieldNbr(sequence[i, 0], sequence[i, 1]);
+          }
+        }
+      }
+    }
 
     /// <summary> 
     /// Processes a made turned and returns the state of the tic tac toe play box
@@ -127,21 +148,7 @@ namespace TicTacToeControl
     private bool _hasEnded = false;
     private readonly int[,] winSequence = new int[3,2];
 
-    public IEnumerable<int> WinSequence
-    {
-      get
-      {
-        if (this._hasEnded)
-        {
-          int[,] sequence = this.winSequence;
 
-          for (int i = 0, length = sequence.GetLength(0); i < length; i++)
-          {
-            yield return ConvertRowColumnToFieldNbr(sequence[i, 0], sequence[i, 1]);
-          }
-        }                
-      }
-    }
 
 
     /// <summary> Resets the model as if it was just created </summary>
@@ -167,7 +174,7 @@ namespace TicTacToeControl
       int currentRowNbr = columnNumber;
       int currentColumnNbr = rowNumber;
 
-      // From the toBeOccupiedField 4 axis must be traversed to
+      //  4 axis with the toBeOccupiedField as starting point must be traversed to
       // determine if a player has won on a turn.
 
       // Checking from toBeOccupiedField to top left in the grid.
@@ -269,7 +276,6 @@ namespace TicTacToeControl
 
     }
 
-    #region Private sector
 
     // A field can be occupied or empty
     private enum FieldStatus
@@ -278,6 +284,9 @@ namespace TicTacToeControl
       Player2Occupied,
       Empty
     }
+
+    // State of the current game party
+    private GameState currentState;
 
     // A tic tac toe box has a width of 3
     // _MAX_WIDTH_HEIGHT
@@ -291,8 +300,6 @@ namespace TicTacToeControl
     // a victory of a player
     private readonly FieldStatus[,] fieldGrid;
 
-    // State of the current game party
-    private GameState currentState;
 
     private void MakeFieldsEmpty()
     {
@@ -307,9 +314,6 @@ namespace TicTacToeControl
 
     private static int ConvertRowColumnToFieldNbr(int rowNbr, int columnNbr) 
     => (rowNbr * _MAX_WIDTH_HEIGHT) + columnNbr;
-
-    #endregion
-
 
   }
 

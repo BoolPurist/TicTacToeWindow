@@ -11,6 +11,7 @@ namespace TicTacToeControl_XUnit
 
   public class TicTacToeBoxUnit
   {
+    // TODO Write tests for property WinSequence and LastTakeFieldNbr
 
     #region Tests
 
@@ -332,7 +333,7 @@ namespace TicTacToeControl_XUnit
 
     #endregion
 
-#   region routines
+    #region routines
     // Used for most theories. 
     // Parameter input sequence of field numbers for the turns
     // Parameter expectedOutput sequence which contains the expected state 
@@ -360,6 +361,7 @@ namespace TicTacToeControl_XUnit
     }
 
     #endregion
+  
   }
 
 }

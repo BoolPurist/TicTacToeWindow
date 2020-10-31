@@ -38,13 +38,11 @@ namespace TicTacToeControl
   /// </summary>
   public partial class TicTacToeBoxControl : UserControl
   {
-    public TicTacToeBoxControl()
-    {
-      InitializeComponent();
-      this.logicalGrid = new TicTacToeModel();
-      this.StateOfGame = GameState.TurnPlayerOne;
-      this.playFields = new Button[9];
-    }
+    /// <summary> 
+    /// If a win is detected the 3 symbols for the line are colored based on this property 
+    /// </summary>
+    /// <value> Get/set auto implementation with a initialized value </value>
+    public static Brush WinnerColor { get; set; } = new SolidColorBrush(Colors.Green);
 
     /// <summary> 
     /// Handler for changing the state of tic tac toe game.   
@@ -61,76 +59,13 @@ namespace TicTacToeControl
     /// </summary>
     public event ChangeGameStateHandler ChangeTurn;
 
-    /// <summary> 
-    /// State of the current game party. 
-    /// (which player is next or game ended in draw or in a win of a player) 
-    /// </summary>
-    /// <value> 
-    /// Get/Set of field stateOfGame. 
-    /// If set, checks if state is final outcome of current game party (draw or win)
-    /// If a final state is confirmed it invokes all registers callbacks on the event GameEnds
-    /// </value>
-    private GameState StateOfGame
+    public TicTacToeBoxControl()
     {
-      get => this.stateOfGame;
-      set
-      {
-        this.stateOfGame = value;
-
-#if DEBUG
-        DebugPrintCurrentTurn(this.logicalGrid.LastTakeFieldNbr, value);
-#endif
-
-        if (
-          value == GameState.Draw ||
-          value == GameState.PlayerOneWins ||
-          value == GameState.PlayerTwoWins
-          )
-        {
-          this.Freeze();
-          this.GameEnds?.Invoke(value);
-
-#if DEBUG
-          this.DebugPrintGameEnd();
-#endif
-
-        }
-        else
-        {
-          this.ChangeTurn?.Invoke(value);
-        }
-      }
+      InitializeComponent();
+      this.logicalGrid = new TicTacToeModel();
+      this.StateOfGame = GameState.TurnPlayerOne;
+      this.playFields = new Button[9];
     }
-
-    /// <summary> 
-    /// Puts symbol in the play box depending on whose turn is and 
-    /// removes the click event. Cross symbol 
-    /// represents player one Circle represents player two.
-    /// </summary>
-    /// <param name="sender"> sender as a button control as play box </param>
-    /// <param name="e"> Not relevant </param>
-    public void PlayField_OnClick(object sender, RoutedEventArgs e)
-    {
-
-      if (sender is Button playBox)
-      {
-
-        int selectedFieldNbr = int.Parse(playBox.Tag as string);
-
-        playBox.Content = this.StateOfGame == GameState.TurnPlayerOne ? 
-          new Cross() as object : new Circle() as object;
-
-        // No need to listen to the event anymore. 
-        // Play field can be selected only once by one player.
-        playBox.Click -= PlayField_OnClick;
-        e.Handled = true;
-
-        // Get the state for the next turn as a result of current turn.
-        this.StateOfGame = this.logicalGrid.MakeTurn(selectedFieldNbr);       
-        
-      }
-    }
-
 
     /// <summary> 
     /// Resets the state of this control.
@@ -149,7 +84,7 @@ namespace TicTacToeControl
 #endif
           playField.Click -= this.PlayField_OnClick;
           playField.Click += this.PlayField_OnClick;
-        }                
+        }
       }
 
       this.logicalGrid.Reset();
@@ -158,7 +93,46 @@ namespace TicTacToeControl
 #if DEBUG
       DebugResetTurns();
 #endif
+    }
 
+    // State of the current game party. 
+    // (which player is next or game ended in draw or in a win of a player) 
+    // If set, checks if state is final outcome of current game party (draw or win)
+    // If a final state is confirmed it invokes all registers callbacks on the event GameEnds
+    private GameState StateOfGame
+    {
+      get => this.stateOfGame;
+      set
+      {
+        this.stateOfGame = value;
+
+#if DEBUG
+        DebugPrintCurrentTurn(this.logicalGrid.LastTakeFieldNbr, value);
+#endif
+        bool hasWon = value == GameState.PlayerOneWins || value == GameState.PlayerTwoWins;
+
+        // If a player won, the symbols which lead to victory, will colored extra.
+        if (hasWon)
+        {
+          this.MarkWinnerLine();
+        }
+
+        if ( value == GameState.Draw || hasWon )
+        {
+
+          this.Freeze();
+          this.GameEnds?.Invoke(value);
+
+#if DEBUG
+          this.DebugPrintGameEnd();
+#endif
+
+        }
+        else
+        {
+          this.ChangeTurn?.Invoke(value);
+        }
+      }
     }
 
     // Is invoked when game ends.
@@ -173,14 +147,56 @@ namespace TicTacToeControl
       }
     }
 
+    // Marks the symbols which resulted in a victory
+    private void MarkWinnerLine()
+    {
+      foreach (int winFieldNbr in this.logicalGrid.WinSequence)
+      {
+        var currentPlayField = this.playFields[winFieldNbr].Content;
+        if (currentPlayField is Cross cross)
+        {
+          cross.StrokeColor = WinnerColor;
+        }
+        else if (currentPlayField is Circle cirle)
+        {
+          cirle.StrokeColor = WinnerColor;
+        }
+      }
+    }
 
-    /// <summary> 
+    #region event handler
+
+    // Puts symbol in the play box depending on whose turn is and 
+    // removes the click event. Cross symbol 
+    // represents player one Circle represents player two.
+    // parameter sender as a play box 
+    private void PlayField_OnClick(object sender, RoutedEventArgs e)
+    {
+
+      if (sender is Button playBox)
+      {
+
+        int selectedFieldNbr = int.Parse(playBox.Tag as string);
+
+        playBox.Content = this.StateOfGame == GameState.TurnPlayerOne ?
+          new Cross() as object : new Circle() as object;
+
+        // No need to listen to the event anymore. 
+        // Play field can be selected only once by one player.
+        playBox.Click -= PlayField_OnClick;
+
+        e.Handled = true;
+
+        // Get the state for the next turn as a result of current turn.
+        this.StateOfGame = this.logicalGrid.MakeTurn(selectedFieldNbr);
+
+      }
+    }
+
     /// Loads all play fields in a array field for later manipulation, 
     /// give numbered tags and attaches click events. 
     /// In a play field a cross or circle can be inserted or removed after reset.
-    /// </summary>
-    /// <param name="sender"> play field for the tic tac toe field </param>
-    /// <param name="e"> Not used </param>
+    /// parameter sender: play field for the tic tac toe field   
     private void PlayField_Loaded(object sender, RoutedEventArgs e)
     {
       // If for any reason the xaml is reloaded this counter will be reset to zero.
@@ -198,8 +214,11 @@ namespace TicTacToeControl
       }      
     }
 
+    #endregion
+
     // Local variable of method of PlayField_Loaded.
     private int _playFieldInitIndex = 0;
+
 
     private readonly Button[] playFields;
 
