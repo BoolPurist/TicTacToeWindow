@@ -30,8 +30,6 @@ namespace TicTacToeControl
     Draw
   }
 
-  // TODO Comment out methods and some props
-
   /// <summary>
   /// Interaction logic for TicTacToeBoxControl.xaml. Represents a Tic Tac Toe grid
   /// which can be used by 2 players. It also manages the state of the game, 
@@ -54,10 +52,15 @@ namespace TicTacToeControl
     /// </summary>
     public event ChangeGameStateHandler ChangeTurn;
 
-    private readonly Button[] playFields = new Button[9];
-
-    private GameState stateOfGame;
-
+    /// <summary> 
+    /// State of the current game party. 
+    /// (which player is next or game ended in draw or in a win of a player) 
+    /// </summary>
+    /// <value> 
+    /// Get/Set of field stateOfGame. 
+    /// If set, checks if state is final outcome of current game party (draw or win)
+    /// If a final state is confirmed it invokes all registers callbacks on the event GameEnds
+    /// </value>
     private GameState StateOfGame
     {
       get => this.stateOfGame;
@@ -81,17 +84,14 @@ namespace TicTacToeControl
       InitializeComponent();
     }
 
-    private int setPlayFiels = 0;
-
-    
-
     /// <summary> 
     /// Puts symbol in the play box depending on whose turn is and 
     /// removes the click event. Cross symbol 
     /// represents player one Circle represents player two.
     /// </summary>
     /// <param name="sender"> sender as a button control as play box </param>
-    public void PlayField_Click(object sender, RoutedEventArgs e)
+    /// <param name="e"> Not relevant </param>
+    public void PlayField_OnClick(object sender, RoutedEventArgs e)
     {
       Debug.Write($"Turn of {this.stateOfGame},");
       if (sender is Button playBox)
@@ -99,22 +99,20 @@ namespace TicTacToeControl
         if (this.stateOfGame == GameState.TurnPlayerOne)
         {
           playBox.Content = new Cross();
-          DebugPlayerTurns(playBox.Tag as string ,this.stateOfGame);
           this.stateOfGame = GameState.TurnPlayerTwo;
         }
         else if (this.stateOfGame == GameState.TurnPlayerTwo)
         {
           playBox.Content = new Circle();
-          DebugPlayerTurns(playBox.Tag as string, this.stateOfGame);
           this.stateOfGame = GameState.TurnPlayerOne;
         }
 
         // No need to listen to the event anymore. 
         // Play field can be selected only once by one player.
-        playBox.Click -= PlayField_Click;
+        playBox.Click -= PlayField_OnClick;
         e.Handled = true;
 
-        if (++this.setPlayFiels == this.playFields.Length)
+        if (++this._setPlayFiels == this.playFields.Length)
         {
           this.StateOfGame = GameState.Draw;
         }
@@ -122,18 +120,15 @@ namespace TicTacToeControl
         {
           this.ChangeTurn?.Invoke(this.stateOfGame);
         }
-      }
-
-      static void DebugPlayerTurns(string tag, GameState gameState)
-      {
-        Debug.WriteLine($"PlayField-Nr: {tag}");
-      }
-      
+      }      
     }
+
+    // Local variables for method PlayField_OnClick
+    private int _setPlayFiels = 0;
 
     /// <summary> 
     /// Resets the state of this control.
-    /// Empties all fields in this control and attaches all click events back 
+    /// Empties all fields in this control and attaches back all click events to every field 
     /// </summary>    
     public void Reset()
     {
@@ -142,16 +137,16 @@ namespace TicTacToeControl
         if (playField != null)
         {
           playField.Content = null;
-          playField.Click += this.PlayField_Click;
+          playField.Click += this.PlayField_OnClick;
         }
       }
 
-      this.setPlayFiels = 0;
+      this._setPlayFiels = 0;
       this.StateOfGame = GameState.TurnPlayerOne;
       Debug.WriteLine('\n');
     }
 
-    private int playFieldInitIndex = 0;
+
 
     /// <summary> 
     /// Loads all play fields in a array field for later manipulation, 
@@ -163,16 +158,23 @@ namespace TicTacToeControl
     private void PlayField_Loaded(object sender, RoutedEventArgs e)
     {
       // If for any reason the xaml is reloaded this counter will be reset to zero.
-      this.playFieldInitIndex %= this.playFields.Length;
+      this._playFieldInitIndex %= this.playFields.Length;
 
       if (sender is Button playFieldBtn)
       {
-        playFieldBtn.Tag = playFieldInitIndex.ToString();
-        this.playFields[playFieldInitIndex++] = playFieldBtn;
-        playFieldBtn.Click += PlayField_Click;
+        playFieldBtn.Tag = _playFieldInitIndex.ToString();
+        this.playFields[_playFieldInitIndex++] = playFieldBtn;
+        playFieldBtn.Click += PlayField_OnClick;
       }      
     }
-    
+
+    // Local variable of method of PlayField_Loaded.
+    private int _playFieldInitIndex = 0;
+
+    private readonly Button[] playFields = new Button[9];
+
+    private GameState stateOfGame;
+
   }
 
 }
