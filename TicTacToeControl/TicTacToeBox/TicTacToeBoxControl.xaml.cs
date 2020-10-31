@@ -15,6 +15,8 @@ using System.Xml;
 
 namespace TicTacToeControl
 {
+
+
   /// <summary> All possible stages of the tic tac toe game and outcomes</summary>
   public enum GameState
   {
@@ -37,6 +39,12 @@ namespace TicTacToeControl
   /// </summary>
   public partial class TicTacToeBoxControl : UserControl
   {
+
+#if DEBUG
+    private readonly Stack<int> fieldNumbersDebug = new Stack<int>();
+    private readonly Stack<GameState> playerTurnsDebug = new Stack<GameState>();
+#endif
+
     /// <summary> 
     /// Handler for changing the state of tic tac toe game.   
     /// </summary>
@@ -74,6 +82,33 @@ namespace TicTacToeControl
           value == GameState.PlayerTwoWins
           )
         {
+
+#if DEBUG
+          // Prints outs 2 sequences to the trace: Field numbers taken in order
+          // Receptive order of which player made a turn
+          Debug.WriteLine($"Game outcome: {this.playerTurnsDebug.Pop()}");
+
+          var currentDebugLine = new StringBuilder( 64 );
+          currentDebugLine.Append("Field numbers taken: {");
+          foreach (int fieldNbr in this.fieldNumbersDebug)
+          {
+            currentDebugLine.Append($"{fieldNbr}, ");
+          }
+          currentDebugLine.Remove(currentDebugLine.Length - 2, 2);
+          currentDebugLine.Append(" }");
+          Debug.WriteLine(currentDebugLine);
+          currentDebugLine.Clear();
+
+          currentDebugLine.Append("Made turns: {");
+          foreach (GameState playerTurn in this.playerTurnsDebug)
+          {
+            currentDebugLine.Append($"{playerTurn}, ");
+          }
+          currentDebugLine.Remove(currentDebugLine.Length - 2, 2);
+          currentDebugLine.Append(" }");
+
+          Debug.WriteLine(currentDebugLine);
+#endif
           this?.GameEnds.Invoke(value);
         }
       }
@@ -93,9 +128,17 @@ namespace TicTacToeControl
     /// <param name="e"> Not relevant </param>
     public void PlayField_OnClick(object sender, RoutedEventArgs e)
     {
-      Debug.Write($"Turn of {this.stateOfGame},");
+
       if (sender is Button playBox)
       {
+
+#if DEBUG
+        Debug.WriteLine($"Field occupied with number: ({playBox.Tag})");
+        Debug.WriteLine($"Turn made by ({this.stateOfGame})");
+        this.fieldNumbersDebug.Push(int.Parse(playBox.Tag as string));
+        this.playerTurnsDebug.Push(this.stateOfGame);
+#endif
+
         if (this.stateOfGame == GameState.TurnPlayerOne)
         {
           playBox.Content = new Cross();
@@ -120,6 +163,8 @@ namespace TicTacToeControl
         {
           this.ChangeTurn?.Invoke(this.stateOfGame);
         }
+
+
       }      
     }
 
@@ -142,8 +187,7 @@ namespace TicTacToeControl
       }
 
       this._setPlayFiels = 0;
-      this.StateOfGame = GameState.TurnPlayerOne;
-      Debug.WriteLine('\n');
+      this.StateOfGame = GameState.TurnPlayerOne;      
     }
 
 
