@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.DirectoryServices;
 using System.Linq;
 using System.Text;
@@ -37,11 +38,11 @@ namespace TicTacToeMainWindow
     /// for the Content of the Label "Announcer" in xaml
     /// </value>
     public AnnouncerTextModel AnnouncerTxt { get; set;}
-
+    
     public MainWindow()
     {
       InitializeComponent();
-
+    
       this.DataContext = this;
       this.AnnouncerTxt = new AnnouncerTextModel();
 
@@ -49,10 +50,18 @@ namespace TicTacToeMainWindow
       this.ticTacToeBox = this.TicTacToeGird;
       this.scoreBoard = this.GameScoreBoard;      
       
+      this.AnnouncerTxt.CurrentGameState = GameState.TurnPlayerOne;
+      
       this.ticTacToeBox.GameEnds += this.OnGameEnds;
       this.ticTacToeBox.ChangeTurn += this.AdjustAnnouncerTxt_OnChangeTurn;
+      this.ContentRendered += SetMinSize;
 
-      this.AnnouncerTxt.CurrentGameState = GameState.TurnPlayerOne;
+
+      void SetMinSize(object? sender, EventArgs e)
+      {
+        this.MinWidth = this.ActualWidth;
+        this.MinHeight = this.ActualHeight;
+      }
     }
 
     /// <summary> Issues all needed steps to reset a game </summary>
