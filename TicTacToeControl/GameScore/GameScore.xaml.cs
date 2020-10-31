@@ -95,6 +95,8 @@ namespace TicTacToeControl
       }
     }
 
+    #endregion
+
     /// <summary> 
     /// Resets all states on the game score. 
     /// Wins of 1. player and 2. player and draws are set to zero
@@ -107,6 +109,6 @@ namespace TicTacToeControl
       this.GameScoreData.Draws = initValue;
     }
 
-    #endregion
+
   }
 }

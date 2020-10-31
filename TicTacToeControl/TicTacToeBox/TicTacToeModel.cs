@@ -9,7 +9,7 @@ namespace TicTacToeControl.TicTacToeBox
 {
   public class TicTacToeModel
   {
-    
+
     public TicTacToeModel()
     {
       this.currentState = GameState.TurnPlayerOne;
@@ -35,6 +35,8 @@ namespace TicTacToeControl.TicTacToeBox
     /// <returns> 
     /// Returns the state after a turn. The state tells 
     /// which player is next, has already won or if a draw occurred
+    /// If a final outcome is encounter, this state is returned back until reset
+    /// caused by the method Reset.
     /// </returns>
     /// <exception cref="NoEmptyPlayFieldException"> 
     /// If a field number is given twice for party (Would occupy a non-empty field)
@@ -44,13 +46,14 @@ namespace TicTacToeControl.TicTacToeBox
     /// </exception>
     public GameState MakeTurn(int fieldNumber)
     {
-
-      if (!this.hasEnded)
+      // If a final outcome is encounter, this state is returned back until reset.
+      if (!this._hasEnded)
       {
-
+        // Mapping field number to field coordinates for a 2d array.
         int columnNumber = fieldNumber % _maxWidthHeight;
         int rowNumber = fieldNumber / _maxWidthHeight;
 
+        // Checking for exception cases
         if (fieldNumber < 0)
         {
           throw new ArgumentOutOfRangeException
@@ -74,13 +77,18 @@ namespace TicTacToeControl.TicTacToeBox
             $"FieldNumber is not empty anymore !",
             fieldNumber
             );
-        }
+        }        
         else
         {
+          // Process a valid turn
+
+          // Mapping current state into a field status to put into an empty field which
+          // is turned into an occupied one by the player made their turn.
           this.fieldGrid[rowNumber, columnNumber] = 
             this.currentState == GameState.TurnPlayerOne
             ? FieldStatus.Player1Occupied : FieldStatus.Player2Occupied;
           
+          // Checks if a player has won on the current turn
           this.currentState = this.ValidateTurn(rowNumber, columnNumber);
         }
         
@@ -90,15 +98,16 @@ namespace TicTacToeControl.TicTacToeBox
           this.currentState == GameState.PlayerTwoWins
           )
         {
-          this.hasEnded = true;
+          this._hasEnded = true;
         }
-        else if (++this.turnedCounter == maximumFieldNumber)
+        else if (++this._turnedCounter == maximumFieldNumber)
         {
           this.currentState = GameState.Draw;
-          this.hasEnded = true;
+          this._hasEnded = true;
         }
         else
         {
+          // No Draw or win yet.
           this.currentState = this.currentState == GameState.TurnPlayerOne 
             ? GameState.TurnPlayerTwo : GameState.TurnPlayerOne;
         }        
@@ -106,9 +115,12 @@ namespace TicTacToeControl.TicTacToeBox
 
       return this.currentState;
     }
+    
+    // Local variables for method above
+    private int _turnedCounter = -1;    
+    private bool _hasEnded = false;
 
-    private int turnedCounter = -1;
-    private bool hasEnded = false;
+    // TODO Implement reset method named Reset with return void and no parameters
 
     // This routine assumes that the this.currentState is only GameState.TurnPlayerOne or
     // GameState.TurnPlayerTwo
@@ -218,8 +230,8 @@ namespace TicTacToeControl.TicTacToeBox
     }
 
     #region Private sector
-    private const int _maxWidthHeight = 3;
 
+    // A field can be occupied or empty
     private enum FieldStatus
     {
       Player1Occupied,
@@ -227,10 +239,18 @@ namespace TicTacToeControl.TicTacToeBox
       Empty
     }
 
+    // A tic tac toe box has a width of 3
+    private const int _maxWidthHeight = 3;
+
+    // A tic tac toe has 9 fields. This model counts fields from 0 to 8.
     private const int maximumFieldNumber = 8;
 
+    // Array gird with each cell which stores information if a field is still empty 
+    // or is occupied by player already. The model decides on this base if a turn leads to 
+    // a victory of a player
     private readonly FieldStatus[,] fieldGrid;
 
+    // State of the current game party
     private GameState currentState;
 
     #endregion
@@ -243,7 +263,5 @@ namespace TicTacToeControl.TicTacToeBox
     public NoEmptyPlayFieldException(string paramName , string message, object? actualValue ) 
       : base(paramName, actualValue, message) { }
   }
-
-
 
 }
