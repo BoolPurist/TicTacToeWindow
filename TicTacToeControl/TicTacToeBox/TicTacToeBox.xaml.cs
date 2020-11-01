@@ -13,30 +13,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 
+using TicTacToeControl.Model;
 
-namespace TicTacToeControl
+
+namespace TicTacToeControl.Control
 {
-  /// <summary> All possible stages of the tic tac toe game and outcomes</summary>
-  public enum GameState
-  {
-    /// <summary> it is the turn of 1. player now </summary>
-    TurnPlayerOne,
-    /// <summary> it is the turn of 2. player now </summary>
-    TurnPlayerTwo,
-    /// <summary> 1. player has won </summary>
-    PlayerOneWins,
-    /// <summary> 2. player has won </summary>
-    PlayerTwoWins,
-    /// <summary> No one has won. A draw occurred </summary>
-    Draw
-  }
-
   /// <summary>
   /// Interaction logic for TicTacToeBoxControl.xaml. Represents a Tic Tac Toe grid
   /// which can be used by 2 players. It also manages the state of the game, 
   /// whose turn is when and who wins or in which case a draw occurs.
   /// </summary>
-  public partial class TicTacToeBoxControl : UserControl
+  public partial class TicTacToeBox : UserControl
   {
     /// <summary> 
     /// If a win is detected the 3 symbols for the line are colored based on this property 
@@ -59,10 +46,10 @@ namespace TicTacToeControl
     /// </summary>
     public event ChangeGameStateHandler ChangeTurn;
 
-    public TicTacToeBoxControl()
+    public TicTacToeBox()
     {
       InitializeComponent();
-      this.logicalGrid = new TicTacToeModel();
+      this.logicalGrid = new TicTacToeBoxModel();
       this.StateOfGame = GameState.TurnPlayerOne;
       this.playFields = new Button[9];
     }
@@ -226,7 +213,7 @@ namespace TicTacToeControl
 
     private GameState stateOfGame;
 
-    private readonly TicTacToeModel logicalGrid;
+    private readonly TicTacToeBoxModel logicalGrid;
 
     #region debug code
     

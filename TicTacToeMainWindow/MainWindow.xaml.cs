@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using TicTacToeControl;
+using TicTacToeControl.Control;
 
 
 namespace TicTacToeMainWindow
@@ -122,7 +123,7 @@ namespace TicTacToeMainWindow
     private void AdjustAnnouncerTxt_OnChangeTurn(GameState currentState)
      => this.AnnouncerTxt.CurrentGameState = currentState;
 
-    private readonly TicTacToeBoxControl ticTacToeBox;
+    private readonly TicTacToeBox ticTacToeBox;
 
     private readonly GameScore scoreBoard;
   }

@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TicTacToeControl
+
+
+namespace TicTacToeControl.Control
 {
   /// <summary>
   /// Interaction logic for PlayerCircle.xaml. View is an ellipse looking like

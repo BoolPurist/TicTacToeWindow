@@ -5,6 +5,7 @@ using System.DirectoryServices;
 using Xunit;
 
 using TicTacToeControl;
+using TicTacToeControl.Model;
 
 namespace TicTacToeControl_XUnit
 {
@@ -73,7 +74,7 @@ namespace TicTacToeControl_XUnit
     {
       int[] fieldNbr;
       GameState[] madeTurns;
-      var logicModel = new TicTacToeModel();
+      var logicModel = new TicTacToeBoxModel();
 
       // 1. case is an undone game party 
 
@@ -341,7 +342,7 @@ namespace TicTacToeControl_XUnit
     // for the next turn for the receptive field number provide by the parameter input
     private static void IterCases(int[] input, GameState[] expectedOutput)
     {
-      var ticTacToeBox = new TicTacToeModel();
+      var ticTacToeBox = new TicTacToeBoxModel();
 
       for (int i = 0, length = input.Length; i < length; i++)
       {
@@ -355,7 +356,7 @@ namespace TicTacToeControl_XUnit
     // parameter madeTurns are the sequence which contains at least one invalid turn
     private static void IterCasesForExcep(int[] madeTurns)
     {
-      var ticTacToeBox = new TicTacToeModel();
+      var ticTacToeBox = new TicTacToeBoxModel();
       foreach (int fieldNumber in madeTurns)
       {
         ticTacToeBox.MakeTurn(fieldNumber);

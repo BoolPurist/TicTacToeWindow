@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:TicTacToeMainWindow"
-        xmlns:uc="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:ucd="clr-namespace:TicTacToeControl;assembly=TicTacToeControl"
+        xmlns:uc="clr-namespace:TicTacToeControl.Control;assembly=TicTacToeControl"        
         mc:Ignorable="d"
         Title="Tic Tac Toe" SizeToContent="WidthAndHeight" >
   <Window.Resources>
@@ -16,19 +16,19 @@
       <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Style.Triggers>
-        <Trigger Property="Tag" Value="{x:Static uc:GameState.TurnPlayerOne}">
+        <Trigger Property="Tag" Value="{x:Static ucd:GameState.TurnPlayerOne}">
           <Setter  Property="Background" Value="Red"/>
         </Trigger>
-        <Trigger Property="Tag" Value="{x:Static uc:GameState.TurnPlayerTwo}">
+        <Trigger Property="Tag" Value="{x:Static ucd:GameState.TurnPlayerTwo}">
           <Setter  Property="Background" Value="Blue"/>
         </Trigger>
-        <Trigger Property="Tag" Value="{x:Static uc:GameState.Draw}">
+        <Trigger Property="Tag" Value="{x:Static ucd:GameState.Draw}">
           <Setter  Property="Background" Value="Green"/>
         </Trigger>
-        <Trigger Property="Tag" Value="{x:Static uc:GameState.PlayerOneWins}">
+        <Trigger Property="Tag" Value="{x:Static ucd:GameState.PlayerOneWins}">
           <Setter  Property="Background" Value="Orange"/>
         </Trigger>
-        <Trigger Property="Tag" Value="{x:Static uc:GameState.PlayerTwoWins}">
+        <Trigger Property="Tag" Value="{x:Static ucd:GameState.PlayerTwoWins}">
           <Setter  Property="Background" Value="Purple"/>
         </Trigger>
       </Style.Triggers>
@@ -38,7 +38,7 @@
   <StackPanel Margin="50"
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-    <uc:TicTacToeBoxControl x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
+    <uc:TicTacToeBox x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
     <Label x:Name="Announcer" Style="{StaticResource AnnouncerTextStyle}"
            Content="{Binding Path=AnnouncerTxt.CurrentText}" 
            Tag="{Binding Path=AnnouncerTxt.CurrentGameState}"/>

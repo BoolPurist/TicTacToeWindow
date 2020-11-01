@@ -7,9 +7,9 @@ using System.Windows.Media;
 
 #nullable enable
 
-namespace TicTacToeControl
+namespace TicTacToeControl.Model
 {
-  public class TicTacToeModel
+  public class TicTacToeBoxModel
   {
     
     /// <summary> 
@@ -65,7 +65,7 @@ namespace TicTacToeControl
     // If victory is confirmed, the field numbers for the match are stored in this field.
     private readonly int[,] winSequence = new int[_MAX_WIDTH_HEIGHT, 2];
 
-    public TicTacToeModel()
+    public TicTacToeBoxModel()
     {
       this.fieldGrid = new FieldStatus[3, 3];
       this.Reset();
