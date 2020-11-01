@@ -10,10 +10,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace TicTacToeControl_XUnit
 {
-  // TODO Write Test for getter GameEnded
   public class TicTacToeBoxUnit
   {
-    // TODO Write tests for property WinSequence and LastTakeFieldNbr
+
 
     #region Tests
 
@@ -26,18 +25,29 @@ namespace TicTacToeControl_XUnit
       IterCases(madeTurns, expectedStates);
     }
 
+    // Should always return the field number from the last made turn.
+    [Theory]
+    [MemberData(nameof(DrawTurnsData))]
+    public void LastTakeFieldNbr_ShouldReturnTakenFieldNbr(int[] madeTurns)
+    {
+      // Should return -1 if game starts because no turn was made.
+      var ticTacToeBoxModel = new TicTacToeBoxModel();
+      Assert.Equal(ticTacToeBoxModel.LastTakeFieldNbr, -1);
+
+      foreach (int fieldNbr in madeTurns)
+      { 
+        ticTacToeBoxModel.MakeTurn(fieldNbr);
+        Assert.Equal(ticTacToeBoxModel.LastTakeFieldNbr, fieldNbr);
+      }
+    }
+
     // Testing if a negative or too high field number result 
     // in an ArgumentOutOfRangeException exception
     [Theory]
     [MemberData(nameof(NegativeOrTooHightFieldNumberData))]
-    public void MakeTurn_ShouldThrowIfFieldNumberNegativeOrTooHigh(
-        int [] madeTurns
-        )
+    public void MakeTurn_ShouldThrowIfFieldNumberNegativeOrTooHigh(int [] madeTurns)
     {
-      Assert.Throws<ArgumentOutOfRangeException>
-        (
-          () => { IterCasesForExcep(madeTurns); }
-        );  
+      Assert.Throws<ArgumentOutOfRangeException>( () => { IterCasesForExcep(madeTurns); } );  
     }
 
     // Tests if NoEmptyPlayFieldException an  exception is thrown 
@@ -133,14 +143,16 @@ namespace TicTacToeControl_XUnit
 
     }
 
-    // Reason suppressing xUnit1026 warning here: 
+    // Reason suppressing xUnit1026 and IDE0060 warning here: 
     // WinTurnData already has enough field numbers leading to victory, but the second
-    // array is not needed for this theory
+    // array is not needed for this theory. XUnit would crash if the 2. parameter is not provided.
     // Should only return true after the last turn which caused victory.
     [Theory]
     [MemberData(nameof(WinTurnData))]
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
+#pragma warning disable IDE0060 // Remove unused parameter
     public void GameEnded_ShouldReturnTrueIfWin(int[] madeTurns, GameState[] noRelevance)
+#pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
     {
       var ticTacToeBoxModel = new TicTacToeBoxModel();
@@ -156,10 +168,7 @@ namespace TicTacToeControl_XUnit
       Assert.True(ticTacToeBoxModel.GameEnded);
     }
 
-    // Reason suppressing xUnit1026 warning here: 
-    // DrawTurnsData already has enough field numbers leading to victory, but the second
-    // array is not needed for this theory
-    // Should return always false in games resulting in draw
+    // Should return always false because a game ended in draw is still no win.
     [Theory]
     [MemberData(nameof(DrawTurnsData))]
     public void GameEnded_ShouldReturnFalseDraw(int[] madeTurns)

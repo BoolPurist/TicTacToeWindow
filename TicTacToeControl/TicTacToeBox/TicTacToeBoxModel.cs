@@ -39,7 +39,7 @@ namespace TicTacToeControl.Model
     /// Auto implementation for public getter only. 
     /// Returns -1 if no turn has been made yet
     /// </value>
-    public int LastTakeFieldNbr { get; private set; }
+    public int LastTakeFieldNbr { get; private set; } = COUNTER_FOR_NO_TURNS;
 
     /// <summary> Gives out the filed number of the turns which resulted in a victory </summary>
     /// <value> 
@@ -164,7 +164,7 @@ namespace TicTacToeControl.Model
     /// <summary> Resets the model as if it was just created </summary>
     public void Reset()
     {
-      const int COUNTER_FOR_NO_TURNS = -1;
+      
       
       this._hasEnded = false;
       this._turnedCounter = COUNTER_FOR_NO_TURNS;
@@ -313,6 +313,8 @@ namespace TicTacToeControl.Model
     // MAXIMUM_FIELD_NBR
     // A tic tac toe has 9 fields. This model counts fields from 0 to 8.
     private const int MAXIMUM_FIELD_NBR = 8;
+
+    private const int COUNTER_FOR_NO_TURNS = -1;
 
     // Array gird with each cell which stores information if a field is still empty 
     // or is occupied by player already. The model decides on this base if a turn leads to 
