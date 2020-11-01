@@ -78,6 +78,7 @@ namespace TicTacToeControl
         if (playField != null)
         {
 #if DEBUG
+          // Places the respective field number into each empty field.
           playField.Content = playField.Tag as string;
 #else
           playField.Content = null;
@@ -188,7 +189,8 @@ namespace TicTacToeControl
         e.Handled = true;
 
         // Get the state for the next turn as a result of current turn.
-        this.StateOfGame = this.logicalGrid.MakeTurn(selectedFieldNbr);
+        this.logicalGrid.MakeTurn(selectedFieldNbr);
+        this.StateOfGame = this.logicalGrid.CurrentState;
 
       }
     }

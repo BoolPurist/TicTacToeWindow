@@ -8,7 +8,7 @@ using TicTacToeControl;
 
 namespace TicTacToeControl_XUnit
 {
-
+  // TODO Write Test for getter GameEnded
   public class TicTacToeBoxUnit
   {
     // TODO Write tests for property WinSequence and LastTakeFieldNbr
@@ -122,7 +122,8 @@ namespace TicTacToeControl_XUnit
       {
         for (int i = 0, length = fieldNbr.Length; i < length; i++)
         {
-          Assert.Equal(logicModel.MakeTurn(fieldNbr[i]), madeTurns[i]);
+          logicModel.MakeTurn(fieldNbr[i]);
+          Assert.Equal(logicModel.CurrentState, madeTurns[i]);
         }
 
         logicModel.Reset();
@@ -344,7 +345,8 @@ namespace TicTacToeControl_XUnit
 
       for (int i = 0, length = input.Length; i < length; i++)
       {
-        Assert.Equal(ticTacToeBox.MakeTurn(input[i]), expectedOutput[i]);
+        ticTacToeBox.MakeTurn(input[i]);
+        Assert.Equal(ticTacToeBox.CurrentState, expectedOutput[i]);
       }
     }
 
