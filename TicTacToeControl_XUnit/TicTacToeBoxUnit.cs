@@ -6,6 +6,7 @@ using Xunit;
 
 using TicTacToeControl;
 using TicTacToeControl.Model;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TicTacToeControl_XUnit
 {
@@ -131,6 +132,46 @@ namespace TicTacToeControl_XUnit
       }
 
     }
+
+    // Reason suppressing xUnit1026 warning here: 
+    // WinTurnData already has enough field numbers leading to victory, but the second
+    // array is not needed for this theory
+    // Should only return true after the last turn which caused victory.
+    [Theory]
+    [MemberData(nameof(WinTurnData))]
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters
+    public void GameEnded_ShouldReturnTrueIfWin(int[] madeTurns, GameState[] noRelevance)
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
+    {
+      var ticTacToeBoxModel = new TicTacToeBoxModel();
+      int lastIndex = madeTurns.Length - 1;
+      
+      for (int i = 0, length = lastIndex; i < length; i++)
+      {
+        ticTacToeBoxModel.MakeTurn(madeTurns[i]);
+        Assert.False(ticTacToeBoxModel.GameEnded);
+      }
+
+      ticTacToeBoxModel.MakeTurn(madeTurns[lastIndex]);
+      Assert.True(ticTacToeBoxModel.GameEnded);
+    }
+
+    // Reason suppressing xUnit1026 warning here: 
+    // DrawTurnsData already has enough field numbers leading to victory, but the second
+    // array is not needed for this theory
+    // Should return always false in games resulting in draw
+    [Theory]
+    [MemberData(nameof(DrawTurnsData))]
+    public void GameEnded_ShouldReturnFalseDraw(int[] madeTurns)
+    {
+      var ticTacToeBoxModel = new TicTacToeBoxModel();
+      foreach (int fieldNumber in madeTurns)
+      {
+        ticTacToeBoxModel.MakeTurn(fieldNumber);
+        Assert.False(ticTacToeBoxModel.GameEnded);
+      }
+    }
+
     #endregion
 
     #region Test cases
@@ -226,6 +267,7 @@ namespace TicTacToeControl_XUnit
             // [o] [x] [o] 
             new int[] { 0, 1, 4, 8, 5, 3, 2, 6, 7 }
     };
+
 
     public static TheoryData<int[], GameState[]> WinTurnData
     => new TheoryData<int[], GameState[]>()
