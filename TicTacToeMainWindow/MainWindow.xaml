@@ -38,10 +38,10 @@
   <StackPanel Margin="50"
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-    <uc:TicTacToeBox x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
     <Label x:Name="Announcer" Style="{StaticResource AnnouncerTextStyle}"
-           Content="{Binding Path=AnnouncerTxt.CurrentText}" 
-           Tag="{Binding Path=AnnouncerTxt.CurrentGameState}"/>
+           Content="{Binding Path=AnnouncerTxt.CurrentText}" d:Content="Announcement" 
+           Tag="{Binding Path=AnnouncerTxt.CurrentGameState}" d:Tag="{x:Static ucd:GameState.PlayerOneWins}"/>
+    <uc:TicTacToeBox x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
     <Border Margin="{StaticResource BottomMargin}" 
             BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
       <Button Content="Reset Game" Background="#FFBD1717" Click="ResetBtn_OnClick"/>

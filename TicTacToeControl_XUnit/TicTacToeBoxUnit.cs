@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.DirectoryServices;
 
 using Xunit;
 
 using TicTacToeControl;
 using TicTacToeControl.Model;
-using System.Security.Cryptography.X509Certificates;
 
 namespace TicTacToeControl_XUnit
 {

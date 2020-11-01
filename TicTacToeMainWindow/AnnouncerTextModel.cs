@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
-using System.Windows.Media;
-using System.CodeDom;
+﻿using System.ComponentModel;
 using TicTacToeControl;
 
 namespace TicTacToeMainWindow
