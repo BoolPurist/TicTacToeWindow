@@ -10,7 +10,6 @@ namespace TicTacToeControl_XUnit
   public class TicTacToeBoxUnit
   {
 
-
     #region Tests
 
     // Tests incomplete games (without draw or a win) in order to see 
@@ -18,9 +17,7 @@ namespace TicTacToeControl_XUnit
     [Theory]
     [MemberData(nameof(TurnsNoWinsDraws))]
     public void MakeTurn_ShouldReturnNextPlayer(int[] madeTurns, GameState[] expectedStates)
-    {    
-      IterCases(madeTurns, expectedStates);
-    }
+    => IterCases(madeTurns, expectedStates);
 
     // Should always return the field number from the last made turn.
     [Theory]
@@ -43,9 +40,7 @@ namespace TicTacToeControl_XUnit
     [Theory]
     [MemberData(nameof(NegativeOrTooHightFieldNumberData))]
     public void MakeTurn_ShouldThrowIfFieldNumberNegativeOrTooHigh(int [] madeTurns)
-    {
-      Assert.Throws<ArgumentOutOfRangeException>( () => { IterCasesForExcep(madeTurns); } );  
-    }
+    => Assert.Throws<ArgumentOutOfRangeException>( () => { IterCasesForExcep(madeTurns); } );     
 
     // Tests if NoEmptyPlayFieldException an  exception is thrown 
     // if a field number is taken again and in this way 
@@ -53,25 +48,22 @@ namespace TicTacToeControl_XUnit
     [Theory]
     [MemberData(nameof(NoEmptyFieldsData))]
     public void MakeTurn_ShouldThrowForNoEmptyField(int[] madeTurns)
-    {
-      Assert.Throws<NoEmptyPlayFieldException>(() => { IterCasesForExcep(madeTurns); });
-    }
+    => Assert.Throws<NoEmptyPlayFieldException>(() => { IterCasesForExcep(madeTurns); });
+    
 
     // Tests if the draw as a state is returned if no players win.
     [Theory]
     [MemberData(nameof(DrawTurnsData))]
     public void MakeTurn_ShouldReturnDraw(int[] madeTurns)
-    {
-      IterCases(madeTurns, StatesForDraw);
-    }
+    => IterCases(madeTurns, StatesForDraw);
+
 
     // Tests if it can detect if and which player wins on a turn.
     [Theory]
     [MemberData(nameof(WinTurnData))]
     public void MakeTurn_ShouldReturnWinner(int[] madeTurns, GameState[] gameStates)
-    {
-      IterCases(madeTurns, gameStates);
-    }
+    => IterCases(madeTurns, gameStates);
+    
 
     // Reset functionality is verified by the following case:
     // 3 cases with a receptively different outcome are invoked.
@@ -151,33 +143,14 @@ namespace TicTacToeControl_XUnit
     public void GameEnded_ShouldReturnTrueIfWin(int[] madeTurns, GameState[] noRelevance)
 #pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
-    {
-      var ticTacToeBoxModel = new TicTacToeBoxModel();
-      int lastIndex = madeTurns.Length - 1;
-      
-      for (int i = 0, length = lastIndex; i < length; i++)
-      {
-        ticTacToeBoxModel.MakeTurn(madeTurns[i]);
-        Assert.False(ticTacToeBoxModel.GameEnded);
-      }
+    => AssertForGameEnded(madeTurns);
 
-      ticTacToeBoxModel.MakeTurn(madeTurns[lastIndex]);
-      Assert.True(ticTacToeBoxModel.GameEnded);
-    }
-
-    // Should return always false because a game ended in draw is still no win.
+    // Should return always false except for the last turn as a draw
     [Theory]
     [MemberData(nameof(DrawTurnsData))]
-    public void GameEnded_ShouldReturnFalseDraw(int[] madeTurns)
-    {
-      var ticTacToeBoxModel = new TicTacToeBoxModel();
-      foreach (int fieldNumber in madeTurns)
-      {
-        ticTacToeBoxModel.MakeTurn(fieldNumber);
-        Assert.False(ticTacToeBoxModel.GameEnded);
-      }
-    }
-
+    public void GameEnded_ShouldReturnTrueIfDraw(int[] madeTurns)
+    => AssertForGameEnded(madeTurns);
+   
     #endregion
 
     #region Test cases
@@ -411,8 +384,25 @@ namespace TicTacToeControl_XUnit
       }
     }
 
+    // Asserts if every turns results in returned false from the property GameEnded except for the last
+    // turn where the game is decided by a win or draw.
+    private static void AssertForGameEnded(int[] madeTurns)
+    {
+      var ticTacToeBoxModel = new TicTacToeBoxModel();
+      int lastIndex = madeTurns.Length - 1;
+
+      for (int i = 0, length = lastIndex; i < length; i++)
+      {
+        ticTacToeBoxModel.MakeTurn(madeTurns[i]);
+        Assert.False(ticTacToeBoxModel.GameEnded);
+      }
+
+      ticTacToeBoxModel.MakeTurn(madeTurns[lastIndex]);
+      Assert.True(ticTacToeBoxModel.GameEnded);
+    }
+
     #endregion
-  
+
   }
 
 }

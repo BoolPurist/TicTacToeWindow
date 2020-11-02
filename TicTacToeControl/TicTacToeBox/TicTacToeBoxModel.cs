@@ -26,7 +26,8 @@ namespace TicTacToeControl.Model
     /// or false if the game goes on (next turn will be processed)
     /// </value>
     public bool GameEnded => 
-       this.CurrentState == GameState.PlayerOneWins || this.CurrentState == GameState.PlayerTwoWins;
+        this.CurrentState != GameState.TurnPlayerOne && 
+        this.CurrentState != GameState.TurnPlayerTwo;
 
     /// <summary> 
     /// Returns the last given field number on the most current/last turn 
