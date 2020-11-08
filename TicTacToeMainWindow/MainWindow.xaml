@@ -17,19 +17,19 @@
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Style.Triggers>
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.TurnPlayerOne}">
-          <Setter  Property="Background" Value="Red"/>
+          <Setter  Property="Background" Value="#1b6004"/>
         </Trigger>
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.TurnPlayerTwo}">
-          <Setter  Property="Background" Value="Blue"/>
+          <Setter  Property="Background" Value="#151568"/>
         </Trigger>
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.Draw}">
-          <Setter  Property="Background" Value="Green"/>
+          <Setter  Property="Background" Value="#217028"/>
         </Trigger>
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.PlayerOneWins}">
-          <Setter  Property="Background" Value="Orange"/>
+          <Setter  Property="Background" Value="#2e9e09"/>
         </Trigger>
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.PlayerTwoWins}">
-          <Setter  Property="Background" Value="Purple"/>
+          <Setter  Property="Background" Value="#2525fc"/>
         </Trigger>
       </Style.Triggers>
     </Style>
@@ -42,9 +42,19 @@
            Content="{Binding Path=AnnouncerTxt.CurrentText}" d:Content="Announcement" 
            Tag="{Binding Path=AnnouncerTxt.CurrentGameState}" d:Tag="{x:Static ucd:GameState.PlayerOneWins}"/>
     <uc:TicTacToeBox x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
-    <Button Margin="{StaticResource BottomMargin}" 
-            Background="#FFBD1717" BorderBrush="#FFBD1717" 
-            Content="Reset Game" Click="ResetBtn_OnClick"/>
+    <Button Margin="{StaticResource BottomMargin}"
+            Background="#FFBD1717" BorderThickness="0"
+            Click="ResetBtn_OnClick" FontWeight="Bold"
+            >
+      <Button.Resources>
+        <Style TargetType="Border">
+          <Setter Property="CornerRadius" Value="4" />
+        </Style>
+      </Button.Resources>
+      <Button.Content>
+        Reset Game
+      </Button.Content>
+    </Button>
     <uc:GameScore x:Name="GameScoreBoard"/>
 
   </StackPanel>
