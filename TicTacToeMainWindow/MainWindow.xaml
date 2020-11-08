@@ -42,10 +42,9 @@
            Content="{Binding Path=AnnouncerTxt.CurrentText}" d:Content="Announcement" 
            Tag="{Binding Path=AnnouncerTxt.CurrentGameState}" d:Tag="{x:Static ucd:GameState.PlayerOneWins}"/>
     <uc:TicTacToeBox x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
-    <Border Margin="{StaticResource BottomMargin}" 
-            BorderThickness="2" BorderBrush="Gray" CornerRadius="2">
-      <Button Content="Reset Game" Background="#FFBD1717" Click="ResetBtn_OnClick"/>
-    </Border>
+    <Button Margin="{StaticResource BottomMargin}" 
+            Background="#FFBD1717" BorderBrush="#FFBD1717" 
+            Content="Reset Game" Click="ResetBtn_OnClick"/>
     <uc:GameScore x:Name="GameScoreBoard"/>
 
   </StackPanel>
