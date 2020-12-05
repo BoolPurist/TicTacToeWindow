@@ -16,7 +16,7 @@
     </Style>
   </UserControl.Resources>
 
-  <StackPanel Background="Black" >
+  <StackPanel >
     <!-- 
     On this level every label with tag is binded to a property with same name 
     like the tag. Content of a label will be the text template in which

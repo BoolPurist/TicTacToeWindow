@@ -15,7 +15,8 @@
       <Setter Property="Margin" Value="{StaticResource BottomMargin}"/>
       <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Style.Triggers>
+      <Setter Property="Background" Value="Gray" />
+      <!--<Style.Triggers>
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.TurnPlayerOne}">
           <Setter  Property="Background" Value="#1b6004"/>
         </Trigger>
@@ -31,17 +32,16 @@
         <Trigger Property="Tag" Value="{x:Static ucd:GameState.PlayerTwoWins}">
           <Setter  Property="Background" Value="#2525fc"/>
         </Trigger>
-      </Style.Triggers>
+      </Style.Triggers>-->
     </Style>
   </Window.Resources>
   
   <StackPanel Margin="50"
     x:Name="MainPanel" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-    <Label x:Name="Announcer" Style="{StaticResource AnnouncerTextStyle}"
-           Content="{Binding Path=AnnouncerTxt.CurrentText}" d:Content="Announcement" 
-           Tag="{Binding Path=AnnouncerTxt.CurrentGameState}" d:Tag="{x:Static ucd:GameState.PlayerOneWins}"/>
-    <uc:TicTacToeBox x:Name="TicTacToeGird" Margin="{StaticResource BottomMargin}"/>
+    
+    <uc:TicTacToeBox x:Name="TicTacToeGird" 
+                     Margin="{StaticResource BottomMargin}"/>
     <Button Margin="{StaticResource BottomMargin}"
             Background="#FFBD1717" BorderThickness="0"
             Click="ResetBtn_OnClick" FontWeight="Bold"
@@ -55,7 +55,17 @@
         Reset Game
       </Button.Content>
     </Button>
-    <uc:GameScore x:Name="GameScoreBoard"/>
-
+    <uc:GameScore Margin="{StaticResource BottomMargin}" 
+                  x:Name="GameScoreBoard"/>
+    
+    <Label x:Name="Announcer" Style="{StaticResource AnnouncerTextStyle}"
+          Content="{Binding Path=AnnouncerTxt.CurrentText}" 
+          d:Content="Announcement" 
+          Tag="{Binding Path=AnnouncerTxt.CurrentGameState}" 
+          d:Tag="{x:Static ucd:GameState.PlayerOneWins}"
+          BorderThickness="2"
+          BorderBrush="Black"          
+          />
+    
   </StackPanel>
 </Window>
